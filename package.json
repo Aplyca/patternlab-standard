@@ -1,0 +1,38 @@
+{
+  "name": "patternlab-standard",
+  "version": "0.0.1",
+  "description": "Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Aplyca/patternlab-standard.git"
+  },
+  "author": "Aplyca SAS",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "patternlab-node": "^1.0.0",
+    "browser-sync": "^2.10.0",
+    "del": "^2.0.2",
+    "diveSync": "^0.3.0",
+    "fs-extra": "^0.26.0",
+    "glob": "^6.0.1",
+    "gulp": "^3.9.0",
+    "gulp-connect": "^2.2.0",
+    "gulp-copy": "0.0.2",
+    "gulp-cram": "^0.2.0",
+    "gulp-csslint": "^0.2.0",
+    "gulp-header": "^1.7.1",
+    "gulp-load": "^0.1.1",
+    "gulp-nodeunit": "0.0.5",
+    "gulp-sass": "^2.0.1",
+    "gulp-sass-lint": "^1.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-strip-banner": "0.0.2",
+    "html-entities": "^1.2.0",
+    "mustache": "^2.2.0"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "patternlab-standard",
+  "authors": [
+    "Aplyca SAS"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "vendor",  
+    "tests",
+    "public",
+    "source"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "respond": "~1.4.2",
+    "fitvids": "~1"      
+  },
+  "main": [
+      "dist/css/style.css"
+  ]
+}

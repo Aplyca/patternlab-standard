@@ -1,0 +1,4 @@
+# Ignoring
+/node_modules
+#/public
+/vendor
