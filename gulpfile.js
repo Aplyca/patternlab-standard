@@ -9,7 +9,10 @@ var pkg = require('./package.json'),
     nodeunit = require('gulp-nodeunit'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
+    cssmin = require('gulp-cssmin');
+    rename = require('gulp-rename');
     sassLint = require('gulp-sass-lint'),
+    uglify = require('gulp-uglify'),
     browserSync = require('browser-sync').create();
 
 require('gulp-load')(gulp);
@@ -89,9 +92,26 @@ gulp.task('cp:vendor', function(){
   return gulp.src('**/*', {cwd:'./vendor'})
     .pipe(gulp.dest('./public/vendor'))
 });
-gulp.task('dist', function(){
-  return gulp.src(['{js,css,fonts,images}/**/*', 'favicon.ico'], {cwd:'./public'})
+
+gulp.task('dist:assets', function(){
+  return gulp.src(['{js,fonts,images}/**/*', 'favicon.ico'], {cwd:'./public'})
     .pipe(gulp.dest('./dist'))
+})
+
+gulp.task('dist:css', function(){
+  return gulp.src('**/*', {cwd:'./public/css'})
+    .pipe(gulp.dest('./dist/css'))
+    .pipe(cssmin())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('./dist/css'))
+})
+
+gulp.task('dist:js', function(){
+  return gulp.src('**/*', {cwd:'./public/js'})
+    .pipe(gulp.dest('./dist/js'))
+    .pipe(uglify())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('./dist/js'))
 })
 
 //server and watch tasks
@@ -167,7 +187,7 @@ gulp.task('lab', ['prelab', 'patternlab'], function(cb){cb();});
 gulp.task('patterns', ['patternlab:only_patterns']);
 gulp.task('serve', ['lab', 'connect']);
 gulp.task('travis', ['lab', 'nodeunit']);
-gulp.task('publish', ['lab', 'dist']);
+gulp.task('publish', ['lab', 'dist:assets', 'dist:css', 'dist:js']);
 
 gulp.task('version', ['patternlab:version']);
 gulp.task('help', ['patternlab:help']);
