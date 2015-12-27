@@ -86,7 +86,7 @@ gulp.task('cp:css', function(){
     .pipe(browserSync.stream());
 })
 gulp.task('cp:vendor', function(){
-  return gulp.src('**/*', {cwd:'./source/vendor'})
+  return gulp.src('**/*', {cwd:'./vendor'})
     .pipe(gulp.dest('./public/vendor'))
 });
 gulp.task('dist', function(){

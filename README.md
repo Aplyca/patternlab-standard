@@ -98,9 +98,4 @@ Footer
 
 ```html
 	<script src="../../vendor/fitvids/jquery.fitvids.js"></script>  
-	
-    <!--
-        App JS
-	-->   
-    <script src="dist/js/app.js"></script>   
 ```
