@@ -13,7 +13,7 @@ var pkg = require('./package.json'),
     rename = require('gulp-rename');
     sassLint = require('gulp-sass-lint'),
     uglify = require('gulp-uglify'),
-    concat = require('gulp-concat'),    
+    concat = require('gulp-concat'),
     browserSync = require('browser-sync').create();
 
 require('gulp-load')(gulp);
@@ -133,7 +133,8 @@ gulp.task('connect', ['lab'], function(){
   gulp.watch([
     './source/_patterns/**/*.mustache',
     './source/_patterns/**/*.json',
-    './source/_data/*.json'	],
+    './source/_data/*.json',
+    './source/_patternlab-files/pattern-header-footer/*.html'],
      ['lab-pipe'], function(){
        browserSync.reload();
      });
@@ -153,20 +154,9 @@ gulp.task('sass:style', function(){
  		.pipe(sass({
  			outputStyle: 'expanded',
  			precision: 8
- 		}))
+ 		})) 
+        .pipe(sourcemaps.write('.'))    
  		.pipe(gulp.dest('./public/css'))
-        .pipe(browserSync.stream());
-})
-
-gulp.task('sass:styleguide', function(){
- 	return gulp.src('./public/styleguide/css/*.scss')
-        .pipe(sourcemaps.init())
-  		.pipe(sass({
-	        outputStyle: 'expanded',
-            precision: 8
-        }))
-        .pipe(sourcemaps.write())
-  		.pipe(gulp.dest('./public/styleguide/css'))
         .pipe(browserSync.stream());
 })
 
@@ -184,7 +174,7 @@ gulp.task('lab-pipe', ['lab'], function(cb){
 
 gulp.task('default', ['lab']);
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:favicon','cp:font', 'cp:vendor', 'cp:data', 'sass:style', 'sass:styleguide']);
+gulp.task('assets', ['cp:js', 'cp:img', 'cp:favicon','cp:font', 'cp:vendor', 'cp:data', 'sass:style']);
 gulp.task('prelab', ['clean', 'banner', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function(cb){cb();});
 gulp.task('patterns', ['patternlab:only_patterns']);
