@@ -100,7 +100,7 @@ gulp.task('dist:assets', function(){
 })
 
 gulp.task('dist:css', function(){
-  return gulp.src('**/*', {cwd:'./public/css'})
+  return gulp.src('**/*.css', {cwd:'./public/css'})
     .pipe(gulp.dest('./dist/css'))
     .pipe(cssmin())
     .pipe(rename({suffix: '.min'}))
