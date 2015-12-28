@@ -94,6 +94,12 @@ gulp.task('cp:vendor', function(){
     .pipe(gulp.dest('./public/vendor'))
 });
 
+//clean dist dir
+gulp.task('dist:clean', function(cb){
+  del.sync(['./dist/*'], {force: true});
+  cb();
+})
+
 gulp.task('dist:assets', function(){
   return gulp.src(['{fonts,images}/**/*', 'favicon.ico'], {cwd:'./public'})
     .pipe(gulp.dest('./dist'))
@@ -180,7 +186,8 @@ gulp.task('lab', ['prelab', 'patternlab'], function(cb){cb();});
 gulp.task('patterns', ['patternlab:only_patterns']);
 gulp.task('serve', ['lab', 'connect']);
 gulp.task('travis', ['lab', 'nodeunit']);
-gulp.task('publish', ['lab', 'dist:assets', 'dist:css', 'dist:js']);
+gulp.task('dist', ['dist:clean', 'dist:assets', 'dist:css', 'dist:js']);
+gulp.task('publish', ['lab', 'dist']);
 
 gulp.task('version', ['patternlab:version']);
 gulp.task('help', ['patternlab:help']);
