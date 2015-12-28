@@ -12,13 +12,19 @@ Installation
 ------------
 
 ```bash
-npm install && bower install && gulp serve;
+npm run update
 ```
 
 Development
 -----------
 
 See Pattern Lab docs: http://patternlab.io/docs/index.html
+
+Runnig the app
+
+```bash
+gulp serve;
+```
 
 Generating and distributing package
 -----------------------------------

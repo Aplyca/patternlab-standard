@@ -9,11 +9,12 @@ var pkg = require('./package.json'),
     nodeunit = require('gulp-nodeunit'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
-    cssmin = require('gulp-cssmin');
+    cssmin = require('gulp-cssnano');
     rename = require('gulp-rename');
     sassLint = require('gulp-sass-lint'),
     uglify = require('gulp-uglify'),
-    concat = require('gulp-concat'),
+    concat = require('gulp-concat'),  
+    spawn = require('child_process').spawn,
     browserSync = require('browser-sync').create();
 
 require('gulp-load')(gulp);
@@ -177,6 +178,12 @@ gulp.task('lab-pipe', ['lab'], function(cb){
   cb();
   browserSync.reload();
 })
+
+gulp.task('update', function (cb) {
+  spawn('git', ['pull'], {stdio: 'inherit'})
+  spawn('npm', ['update'], {stdio: 'inherit'})
+  spawn('bower', ['update'], {stdio: 'inherit'});
+});
 
 gulp.task('default', ['lab']);
 
