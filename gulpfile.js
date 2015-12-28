@@ -13,6 +13,7 @@ var pkg = require('./package.json'),
     rename = require('gulp-rename');
     sassLint = require('gulp-sass-lint'),
     uglify = require('gulp-uglify'),
+    concat = require('gulp-concat'),    
     browserSync = require('browser-sync').create();
 
 require('gulp-load')(gulp);
@@ -94,7 +95,7 @@ gulp.task('cp:vendor', function(){
 });
 
 gulp.task('dist:assets', function(){
-  return gulp.src(['{js,fonts,images}/**/*', 'favicon.ico'], {cwd:'./public'})
+  return gulp.src(['{fonts,images}/**/*', 'favicon.ico'], {cwd:'./public'})
     .pipe(gulp.dest('./dist'))
 })
 
@@ -112,6 +113,8 @@ gulp.task('dist:js', function(){
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest('./dist/js'))
+    .pipe(concat('app_all.min.js')) 
+    .pipe(gulp.dest('./dist/js'))  
 })
 
 //server and watch tasks

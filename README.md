@@ -66,8 +66,8 @@ Create the file in the public directory of the Bundle:
     "vendor/"
   ],
   "main": [
-      "public/vendor/patternlab-standard/dist/css/style.css",
-      "public/vendor/patternlab-standard/dist/js/app.js"
+      "/dist/css/style.min.css",
+      "/dist/js/app_all.min.js"
   ],
   "dependencies": {
     "patternlab-standard": "git@github.com:Aplyca/patternlab-standard.git#master"
@@ -91,11 +91,18 @@ Head
 	<!--
 		App CSS
 	-->
-    <link rel="stylesheet" href="dist/css/style.css" media="all" />
+    <link rel="stylesheet" href="/dist/css/style.min.css" media="all" />
 ```
 
 Footer
 
 ```html
-	<script src="../../vendor/fitvids/jquery.fitvids.js"></script>  
+	<!--
+		Vendor JS
+	-->
+	<script src="/vendor/fitvids/jquery.fitvids.js"></script>
+	<!--
+		App JS
+	-->    
+	<script src="/dist/js/app_all.min.js"></script>     
 ```
