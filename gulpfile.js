@@ -13,7 +13,7 @@ var pkg = require('./package.json'),
     rename = require('gulp-rename');
     sassLint = require('gulp-sass-lint'),
     uglify = require('gulp-uglify'),
-    concat = require('gulp-concat'),  
+    concat = require('gulp-concat'),
     spawn = require('child_process').spawn,
     browserSync = require('browser-sync').create();
 
@@ -64,6 +64,7 @@ gulp.task('banner', function(){
 gulp.task('cp:js', function(){
   return gulp.src('**/*.js', {cwd:'./source/js'})
     .pipe(gulp.dest('./public/js'))
+    .pipe(browserSync.stream());
 });
 gulp.task('cp:img', function(){
   return gulp.src(
@@ -72,19 +73,24 @@ gulp.task('cp:img', function(){
     .pipe(gulp.dest('./public/images'))
 });
 gulp.task('cp:favicon', function(){
-  return gulp.src(
-    [ 'favicon.ico' ],
-    {cwd:'./source'} )
+  return gulp.src([ 'favicon.ico' ], {cwd:'./source'})
     .pipe(gulp.dest('./public'))
 });
 gulp.task('cp:font', function(){
   return gulp.src('*', {cwd:'./source/fonts'})
     .pipe(gulp.dest('./public/fonts'))
 });
+
 gulp.task('cp:data', function(){
   return gulp.src('annotations.js', {cwd:'./source/_data'})
     .pipe(gulp.dest('./public/data'))
 })
+
+gulp.task('cp:ajax', function(){
+  return gulp.src('*.json', {cwd:'./source/_ajax'})
+    .pipe(gulp.dest('./public/ajax'))
+})
+
 gulp.task('cp:css', function(){
   return gulp.src('./source/css/style.css')
     .pipe(gulp.dest('./public/css'))
@@ -120,8 +126,8 @@ gulp.task('dist:js', function(){
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest('./dist/js'))
-    .pipe(concat('app_all.min.js')) 
-    .pipe(gulp.dest('./dist/js'))  
+    .pipe(concat('app_all.min.js'))
+    .pipe(gulp.dest('./dist/js'))
 })
 
 //server and watch tasks
@@ -132,6 +138,8 @@ gulp.task('connect', ['lab'], function(){
     }
   });
   gulp.watch('./source/css/style.css', ['cp:css']);
+  gulp.watch('./source/js/**/*.js', ['cp:js']);
+  gulp.watch('./source/_ajax/**/*.json', ['cp:ajax']);  
 
   //suggested watches if you use scss
   gulp.watch('./source/css/**/*.scss', ['sass:style']);
@@ -161,8 +169,8 @@ gulp.task('sass:style', function(){
  		.pipe(sass({
  			outputStyle: 'expanded',
  			precision: 8
- 		})) 
-        .pipe(sourcemaps.write('.'))    
+ 		}))
+        .pipe(sourcemaps.write('.'))
  		.pipe(gulp.dest('./public/css'))
         .pipe(browserSync.stream());
 })
@@ -187,7 +195,7 @@ gulp.task('update', function (cb) {
 
 gulp.task('default', ['lab']);
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:favicon','cp:font', 'cp:vendor', 'cp:data', 'sass:style']);
+gulp.task('assets', ['cp:js', 'cp:img', 'cp:favicon','cp:font', 'cp:vendor', 'cp:data', 'cp:ajax', 'sass:style']);
 gulp.task('prelab', ['clean', 'banner', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function(cb){cb();});
 gulp.task('patterns', ['patternlab:only_patterns']);
