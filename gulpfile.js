@@ -4,8 +4,10 @@ var pkg = require('./package.json'),
     gulp = require('gulp'),
     eol = require('os').EOL,
     del = require('del'),
+    argv = require('yargs').argv,    
     strip_banner = require('gulp-strip-banner'),
     header = require('gulp-header'),
+    gulpif = require('gulp-if'),    
     nodeunit = require('gulp-nodeunit'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -64,7 +66,7 @@ gulp.task('banner', function(){
 gulp.task('cp:js', function(){
   return gulp.src('**/*.js', {cwd:'./source/js'})
     .pipe(gulp.dest('./public/js'))
-    .pipe(browserSync.stream());
+    .pipe(gulpif(!argv.noreload, browserSync.stream({once: true})));
 });
 gulp.task('cp:img', function(){
   return gulp.src(
@@ -94,7 +96,7 @@ gulp.task('cp:ajax', function(){
 gulp.task('cp:css', function(){
   return gulp.src('./source/css/style.css')
     .pipe(gulp.dest('./public/css'))
-    .pipe(browserSync.stream());
+    .pipe(gulpif(!argv.noreload, browserSync.stream({once: true})));
 })
 gulp.task('cp:vendor', function(){
   return gulp.src('**/*', {cwd:'./vendor'})
@@ -150,10 +152,7 @@ gulp.task('connect', ['lab'], function(){
     './source/_patterns/**/*.json',
     './source/_data/*.json',
     './source/_patternlab-files/pattern-header-footer/*.html'],
-     ['lab-pipe'], function(){
-       browserSync.reload();
-     });
-
+     ['lab-pipe']);
 })
 
 //unit test
@@ -172,7 +171,7 @@ gulp.task('sass:style', function(){
  		}))
         .pipe(sourcemaps.write('.'))
  		.pipe(gulp.dest('./public/css'))
-        .pipe(browserSync.stream());
+        .pipe(gulpif(!argv.noreload, browserSync.stream({once: true})));
 })
 
 gulp.task('validate:sass', function() {
@@ -184,7 +183,9 @@ gulp.task('validate:sass', function() {
 
 gulp.task('lab-pipe', ['lab'], function(cb){
   cb();
-  browserSync.reload();
+  if (!argv.noreload) {    
+      browserSync.reload();
+  }
 })
 
 gulp.task('update', function (cb) {

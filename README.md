@@ -26,6 +26,13 @@ Runnig the app
 gulp serve;
 ```
 
+If you want to disable the autoreloading browser:
+
+```bash
+gulp serve --noreload;
+```
+
+
 Generating and distributing package
 -----------------------------------
 
