@@ -4,10 +4,8 @@ var pkg = require('./package.json'),
     gulp = require('gulp'),
     eol = require('os').EOL,
     del = require('del'),
-    argv = require('yargs').argv,    
     strip_banner = require('gulp-strip-banner'),
     header = require('gulp-header'),
-    gulpif = require('gulp-if'),    
     nodeunit = require('gulp-nodeunit'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -66,7 +64,6 @@ gulp.task('banner', function(){
 gulp.task('cp:js', function(){
   return gulp.src('**/*.js', {cwd:'./source/js'})
     .pipe(gulp.dest('./public/js'))
-    .pipe(gulpif(!argv.noreload, browserSync.stream({once: true})));
 });
 gulp.task('cp:img', function(){
   return gulp.src(
@@ -82,38 +79,30 @@ gulp.task('cp:font', function(){
   return gulp.src('*', {cwd:'./source/fonts'})
     .pipe(gulp.dest('./public/fonts'))
 });
-
 gulp.task('cp:data', function(){
   return gulp.src('annotations.js', {cwd:'./source/_data'})
     .pipe(gulp.dest('./public/data'))
 })
-
 gulp.task('cp:ajax', function(){
   return gulp.src('*.json', {cwd:'./source/_ajax'})
     .pipe(gulp.dest('./public/ajax'))
 })
-
 gulp.task('cp:css', function(){
   return gulp.src('./source/css/style.css')
     .pipe(gulp.dest('./public/css'))
-    .pipe(gulpif(!argv.noreload, browserSync.stream({once: true})));
+    .pipe(browserSync.stream());
 })
 gulp.task('cp:vendor', function(){
   return gulp.src('**/*', {cwd:'./vendor'})
     .pipe(gulp.dest('./public/vendor'))
 });
-
-//clean dist dir
-gulp.task('dist:clean', function(cb){
+gulp.task('dist:clean', function(){
   del.sync(['./dist/*'], {force: true});
-  cb();
 })
-
 gulp.task('dist:assets', function(){
   return gulp.src(['{fonts,images}/**/*', 'favicon.ico'], {cwd:'./public'})
     .pipe(gulp.dest('./dist'))
 })
-
 gulp.task('dist:css', function(){
   return gulp.src('**/*.css', {cwd:'./public/css'})
     .pipe(gulp.dest('./dist/css'))
@@ -121,7 +110,6 @@ gulp.task('dist:css', function(){
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest('./dist/css'))
 })
-
 gulp.task('dist:js', function(){
   return gulp.src('**/*', {cwd:'./public/js'})
     .pipe(gulp.dest('./dist/js'))
@@ -141,7 +129,7 @@ gulp.task('connect', ['lab'], function(){
   });
   gulp.watch('./source/css/style.css', ['cp:css']);
   gulp.watch('./source/js/**/*.js', ['cp:js']);
-  gulp.watch('./source/_ajax/**/*.json', ['cp:ajax']);  
+  gulp.watch('./source/_ajax/**/*.json', ['cp:ajax']);
 
   //suggested watches if you use scss
   gulp.watch('./source/css/**/*.scss', ['sass:style']);
@@ -151,8 +139,11 @@ gulp.task('connect', ['lab'], function(){
     './source/_patterns/**/*.mustache',
     './source/_patterns/**/*.json',
     './source/_data/*.json',
-    './source/_patternlab-files/pattern-header-footer/*.html'],
-     ['lab-pipe']);
+    './source/_patternlab-files/pattern-header-footer/*.html'],    
+     ['lab-pipe'], function(){
+       browserSync.reload();
+     });
+
 })
 
 //unit test
@@ -163,17 +154,27 @@ gulp.task('nodeunit', function(){
 
 //sass tasks, turn on if you want to use
 gulp.task('sass:style', function(){
- 	return gulp.src('./source/css/*.scss')
-        .pipe(sourcemaps.init())
- 		.pipe(sass({
- 			outputStyle: 'expanded',
- 			precision: 8
- 		}))
-        .pipe(sourcemaps.write('.'))
- 		.pipe(gulp.dest('./public/css'))
-        .pipe(gulpif(!argv.noreload, browserSync.stream({once: true})));
+  return gulp.src('./source/css/*.scss')
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      outputStyle: 'expanded',
+      precision: 8
+    }))
+    .pipe(sourcemaps.write('.'))    
+    .pipe(gulp.dest('./public/css'))
+    .pipe(browserSync.stream({match: '**/*.css'}));
 })
-
+gulp.task('sass:styleguide', function(){
+  return gulp.src('./public/styleguide/css/*.scss')
+  .pipe(sourcemaps.init())
+  .pipe(sass({
+    outputStyle: 'expanded',
+    precision: 8
+  }))
+  .pipe(sourcemaps.write('.'))
+  .pipe(gulp.dest('./public/styleguide/css'))
+  .pipe(browserSync.stream({match: '**/*.css'}));
+})
 gulp.task('validate:sass', function() {
   gulp.src('./**/*.scss')
   .pipe(sourcemaps.write())
@@ -183,16 +184,8 @@ gulp.task('validate:sass', function() {
 
 gulp.task('lab-pipe', ['lab'], function(cb){
   cb();
-  if (!argv.noreload) {    
-      browserSync.reload();
-  }
+  browserSync.reload();
 })
-
-gulp.task('update', function (cb) {
-  spawn('git', ['pull'], {stdio: 'inherit'})
-  spawn('npm', ['update'], {stdio: 'inherit'})
-  spawn('bower', ['update'], {stdio: 'inherit'});
-});
 
 gulp.task('default', ['lab']);
 

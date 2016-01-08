@@ -32,6 +32,11 @@ If you want to disable the autoreloading browser:
 gulp serve --noreload;
 ```
 
+Updating the App:
+
+```bash
+npm run update;
+```
 
 Generating and distributing package
 -----------------------------------
