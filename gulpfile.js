@@ -2,6 +2,7 @@
 
 var pkg = require('./package.json'),
     gulp = require('gulp'),
+    path = require('path'),
     eol = require('os').EOL,
     del = require('del'),
     strip_banner = require('gulp-strip-banner'),
@@ -27,8 +28,21 @@ var banner = [ '/** ',
   ' * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.',
   ' * ', ' **/'].join(eol);
 
+function paths() {
+    return require('./patternlab-config.json').paths;
+}
+
 //load patternlab-node tasks
 gulp.loadTasks(__dirname+'/node_modules/patternlab-node/builder/patternlab_gulp.js');
+
+// The config and the Pattern Lab itself
+var config = require('./patternlab-config.json'),
+    pl = require('patternlab-node')(config);
+
+gulp.task('patternlab', ['prelab'], function (done) {
+  pl.build(true);
+  done();
+});
 
 //clean patterns dir
 gulp.task('clean', function(cb){
@@ -39,25 +53,25 @@ gulp.task('clean', function(cb){
 //build the banner
 gulp.task('banner', function(){
   return gulp.src([
-    './node_modules/patternlab-node/builder/patternlab.js',
-    './node_modules/patternlab-node/builder/object_factory.js',
-    './node_modules/patternlab-node/builder/lineage_hunter.js',
-    './node_modules/patternlab-node/builder/media_hunter.js',
-    './node_modules/patternlab-node/builder/patternlab_grunt.js',
-    './node_modules/patternlab-node/builder/patternlab_gulp.js',
-    './node_modules/patternlab-node/builder/parameter_hunter.js',
-    './node_modules/patternlab-node/builder/pattern_exporter.js',
-    './node_modules/patternlab-node/builder/pattern_assembler.js',
-    './node_modules/patternlab-node/builder/pseudopattern_hunter.js',
-    './node_modules/patternlab-node/builder/list_item_hunter.js',
-    './node_modules/patternlab-node/builder/style_modifier_hunter.js'
+    './node_modules/patternlab-node/core/lib/patternlab.js',
+    './node_modules/patternlab-node/core/lib/object_factory.js',
+    './node_modules/patternlab-node/core/lib/lineage_hunter.js',
+    './node_modules/patternlab-node/core/lib/media_hunter.js',
+    './node_modules/patternlab-node/core/lib/patternlab_grunt.js',
+    './node_modules/patternlab-node/core/lib/patternlab_gulp.js',
+    './node_modules/patternlab-node/core/lib/parameter_hunter.js',
+    './node_modules/patternlab-node/core/lib/pattern_exporter.js',
+    './node_modules/patternlab-node/core/lib/pattern_assembler.js',
+    './node_modules/patternlab-node/core/lib/pseudopattern_hunter.js',
+    './node_modules/patternlab-node/core/lib/list_item_hunter.js',
+    './node_modules/patternlab-node/core/lib/style_modifier_hunter.js'
   ])
     .pipe(strip_banner())
     .pipe(header( banner, {
       pkg : pkg,
       today : new Date().getFullYear() }
     ))
-    .pipe(gulp.dest('./node_modules/patternlab-node/builder'));
+    .pipe(gulp.dest('./node_modules/patternlab-node/core/lib'));
 })
 
 //copy tasks
@@ -92,6 +106,16 @@ gulp.task('cp:css', function(){
     .pipe(gulp.dest('./public/css'))
     .pipe(browserSync.stream());
 })
+
+// Styleguide Copy
+gulp.task('cp:styleguide', function () {
+  return gulp.src(
+      ['**/*'],
+      {cwd: path.resolve(paths().source.styleguide)})
+      .pipe(gulp.dest(path.resolve(paths().public.styleguide)))
+      .pipe(browserSync.stream());
+});
+
 gulp.task('cp:vendor', function(){
   return gulp.src('**/*', {cwd:'./vendor'})
     .pipe(gulp.dest('./public/vendor'))
@@ -128,18 +152,18 @@ gulp.task('connect', ['lab'], function(){
     }
   });
   gulp.watch('./source/css/style.css', ['cp:css']);
+  gulp.watch(path.resolve(paths().source.styleguide, '**/*.*'), ['cp:styleguide']);
   gulp.watch('./source/js/**/*.js', ['cp:js']);
   gulp.watch('./source/_ajax/**/*.json', ['cp:ajax']);
 
   //suggested watches if you use scss
   gulp.watch('./source/css/**/*.scss', ['sass:style']);
-  gulp.watch('./public/styleguide/*.scss', ['sass:styleguide']);
 
   gulp.watch([
     './source/_patterns/**/*.mustache',
     './source/_patterns/**/*.json',
     './source/_data/*.json',
-    './source/_patternlab-files/pattern-header-footer/*.html'],    
+    './source/_patternlab-files/pattern-header-footer/*.html'],
      ['lab-pipe'], function(){
        browserSync.reload();
      });
@@ -160,21 +184,11 @@ gulp.task('sass:style', function(){
       outputStyle: 'expanded',
       precision: 8
     }))
-    .pipe(sourcemaps.write('.'))    
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./public/css'))
     .pipe(browserSync.stream({match: '**/*.css'}));
 })
-gulp.task('sass:styleguide', function(){
-  return gulp.src('./public/styleguide/css/*.scss')
-  .pipe(sourcemaps.init())
-  .pipe(sass({
-    outputStyle: 'expanded',
-    precision: 8
-  }))
-  .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest('./public/styleguide/css'))
-  .pipe(browserSync.stream({match: '**/*.css'}));
-})
+
 gulp.task('validate:sass', function() {
   gulp.src('./**/*.scss')
   .pipe(sourcemaps.write())
@@ -189,7 +203,7 @@ gulp.task('lab-pipe', ['lab'], function(cb){
 
 gulp.task('default', ['lab']);
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:favicon','cp:font', 'cp:vendor', 'cp:data', 'cp:ajax', 'sass:style']);
+gulp.task('assets', ['cp:js', 'cp:img', 'cp:favicon','cp:font', 'cp:vendor', 'cp:data', 'cp:ajax', 'sass:style', 'cp:styleguide']);
 gulp.task('prelab', ['clean', 'banner', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function(cb){cb();});
 gulp.task('patterns', ['patternlab:only_patterns']);
