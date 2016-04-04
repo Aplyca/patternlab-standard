@@ -41,6 +41,7 @@
   ,
   "scripts": {
     "test": "grunt travis --verbose",
-    "update": "git pull && npm update && bower update && gulp"
+    "update": "git pull && npm update && bower update && gulp",
+    "regenerate": "rm -rf vendor node_modules public dist && npm run update && gulp publish"
   }
 }
