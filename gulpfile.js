@@ -101,8 +101,8 @@ gulp.task('pl-compile:validate-sass', function() {
 
 gulp.task('pl-compile:validate-css', function() {
   return gulp.src('**/*.css',{cwd: path.resolve(paths().source.css)} )
-  .pipe(sassLint())
-  .pipe(sassLint.format());
+  .pipe(cssLint())
+  .pipe(cssLint.format());
 })
 
 /******************************************************
@@ -110,7 +110,7 @@ gulp.task('pl-compile:validate-css', function() {
 ******************************************************/
 // PUBLISH clean
 gulp.task('pl-publish:clean', function(){
-  return del([path.resolve(paths().publish.root).concat('**/*')]);
+  return del([path.resolve(paths().publish.root) + '**/*']);
 });
 
 // JS copy
@@ -120,7 +120,7 @@ gulp.task('pl-publish:js', function(){
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(path.resolve(paths().publish.js)))
-    .pipe(concat(paths().publish.combineName.concat('.min.js')))
+    .pipe(concat(paths().publish.combineName + '.min.js'))
     .pipe(gulp.dest(path.resolve(paths().publish.js)));
 });
 
@@ -149,7 +149,7 @@ gulp.task('pl-publish:css', function(){
     .pipe(cssmin({zindex: false}))
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(path.resolve(paths().publish.css)))
-    .pipe(concat(paths().publish.combineName.concat('.min.css')))
+    .pipe(concat(paths().publish.combineName + '.min.css'))
     .pipe(gulp.dest(path.resolve(paths().publish.css)));    
 });
 

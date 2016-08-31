@@ -35,7 +35,7 @@ npm run update;
 Loading a starter kit:
 
 ```bash
-npm run update;
+npm run starterkit;
 ```
 
 Generating and distributing package
@@ -84,8 +84,8 @@ Create the file in the public directory of the Bundle:
     "vendor/"
   ],
   "main": [
-      "/dist/css/style.min.css",
-      "/dist/js/app_all.min.js"
+      "/dist/css/all.min.css",
+      "/dist/js/all.min.js"
   ],
   "dependencies": {
     "patternlab-standard": "git@github.com:Aplyca/patternlab-standard.git#master"
