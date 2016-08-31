@@ -9,39 +9,30 @@
   },
   "author": "Aplyca SAS",
   "license": "ISC",
-  "dependencies": {},
-  "devDependencies": {
-    "patternlab-node": "^1.0.0",
-    "browser-sync": "^2.10.0",
-    "del": "^2.0.2",
-    "diveSync": "^0.3.0",
-    "fs-extra": "^0.26.2",
-    "glob": "^7.0.0",
-    "gulp": "^3.9.0",
+  "dependencies": {
+    "patternlab-node": "^2",
+    "browser-sync": "^2",
+    "del": "^2",
+    "minimist": "^1.2.0",
+    "styleguidekit-assets-default": "^3.0.0",
+    "styleguidekit-mustache-default": "^3.0.0",
+    "starterkit-mustache-demo": "*",
+    "gulp": "gulpjs/gulp#4.0",
     "gulp-concat": "*",
-    "gulp-connect": "^2.2.0",
-    "gulp-copy": "0.0.2",
-    "gulp-cram": "^0.2.0",
-    "gulp-csslint": "^0.2.0",
-    "gulp-exec": "*",
-    "gulp-header": "^1.7.1",
-    "gulp-load": "^0.1.1",
-    "gulp-nodeunit": "0.0.5",
-    "gulp-sass": "^2.0.1",
-    "gulp-sass-lint": "^1.0.1",
+    "gulp-csslint": "^1",
+    "gulp-nodeunit": "^0",
+    "gulp-sass": "^2",
+    "gulp-sass-lint": "^1",
     "gulp-cssnano": "*",
     "gulp-rename": "*",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-strip-banner": "0.0.2",
-    "gulp-uglify": "*",
-    "html-entities": "^1.2.0",
-    "matchdep": "^1.0.0",
-    "mustache": "^2.2.0"
+    "gulp-sourcemaps": "^1.6",
+    "gulp-uglify": "*"
   }
   ,
   "scripts": {
     "test": "grunt travis --verbose",
     "update": "git pull && npm update && bower update && gulp",
-    "regenerate": "rm -rf vendor node_modules public dist && npm run update && gulp publish"
+    "regenerate": "rm -rf vendor node_modules public dist && npm run update && gulp publish",
+    "starterkit": "mkdir -p source && gulp patternlab:loadstarterkit --kit=starterkit-mustache-demo --clean=true"
   }
 }

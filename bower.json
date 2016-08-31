@@ -13,8 +13,8 @@
     "source"
   ],
   "dependencies": {
-    "jquery": "~2.1.0",
-    "respond": "~1.4.2",
+    "jquery": "~2",
+    "respond": "~1",
     "fitvids": "~1"      
   },
   "main": [
