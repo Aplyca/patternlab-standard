@@ -109,7 +109,7 @@ Head
 	<!--
 		App CSS
 	-->
-    <link rel="stylesheet" href="/dist/css/style.min.css" media="all" />
+    <link rel="stylesheet" href="/dist/css/all.min.css" media="all" />
 ```
 
 Footer
@@ -122,5 +122,5 @@ Footer
 	<!--
 		App JS
 	-->    
-	<script src="/dist/js/app_all.min.js"></script>     
+	<script src="/dist/js/app.min.js"></script>     
 ```
