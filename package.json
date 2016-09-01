@@ -8,8 +8,8 @@
     "url": "git@github.com:Aplyca/patternlab-standard.git"
   },
   "author": "Aplyca SAS",
-  "license": "ISC",
-  "dependencies": {
+  "license": "MIT",
+  "devDependencies": {
     "patternlab-node": "^2",
     "browser-sync": "^2",
     "del": "^2",

@@ -5,17 +5,18 @@
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
     "node_modules",
-    "vendor",  
+    "vendor",
     "tests",
     "public",
-    "source"
+    "source",
+    "gulpfile.js",
+    "patternlab-config.json"
   ],
   "dependencies": {
     "jquery": "~2",
     "respond": "~1",
-    "fitvids": "~1"      
+    "fitvids": "~1"
   },
   "main": [
       "dist/css/style.css"
