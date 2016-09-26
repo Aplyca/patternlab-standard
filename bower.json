@@ -19,6 +19,7 @@
     "fitvids": "~1"
   },
   "main": [
-      "dist/css/style.css"
+      "dist/css/patternlab-standard.min.css",
+      "dist/css/patternlab-standard.min.js"
   ]
 }
