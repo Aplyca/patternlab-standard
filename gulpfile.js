@@ -121,7 +121,7 @@ gulp.task('pl-clean:public', function(){
  * PUBLISH TASKS - stream assets from public to dist
 ******************************************************/
 // JS copy
-gulp.task('p-dist:js', function(){
+gulp.task('pl-dist:js', function(){
   return gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
     .pipe(gulp.dest(path.resolve(paths().publish.js)))
     .pipe(uglify())
@@ -132,25 +132,25 @@ gulp.task('p-dist:js', function(){
 });
 
 // Images copy
-gulp.task('p-dist:img', function(){
+gulp.task('pl-dist:img', function(){
   return gulp.src('**/*.*',{cwd: path.resolve(paths().public.images)} )
     .pipe(gulp.dest(path.resolve(paths().publish.images)));
 });
 
 // Favicon copy
-gulp.task('p-dist:favicon', function(){
+gulp.task('pl-dist:favicon', function(){
   return gulp.src('favicon.ico', {cwd: path.resolve(paths().public.root)} )
     .pipe(gulp.dest(path.resolve(paths().publish.root)));
 });
 
 // Fonts copy
-gulp.task('p-dist:font', function(){
+gulp.task('pl-dist:font', function(){
   return gulp.src('*', {cwd: path.resolve(paths().public.fonts)})
     .pipe(gulp.dest(path.resolve(paths().publish.fonts)));
 });
 
 // CSS Copy
-gulp.task('p-dist:css', function(){
+gulp.task('pl-dist:css', function(){
   return gulp.src(path.resolve(paths().public.css, '*.css'))
     .pipe(gulp.dest(path.resolve(paths().publish.css)))
     .pipe(cssmin({zindex: false}))
@@ -204,13 +204,13 @@ gulp.task('pl-assets', gulp.series(
   })
 );
 
-gulp.task('p-dist', gulp.series(
+gulp.task('pl-dist', gulp.series(
   gulp.parallel(
-    'p-dist:js',
-    'p-dist:img',
-    'p-dist:favicon',
-    'p-dist:font',
-    'p-dist:css'
+    'pl-dist:js',
+    'pl-dist:img',
+    'pl-dist:favicon',
+    'pl-dist:font',
+    'pl-dist:css'
   ),
   function(done){
     done();
@@ -343,7 +343,7 @@ gulp.task('patternlab:connect', gulp.series(function(done) {
 gulp.task('default', gulp.series('patternlab:build'));
 gulp.task('patternlab:watch', gulp.series('patternlab:build', watch));
 gulp.task('patternlab:serve', gulp.series('patternlab:build', 'patternlab:connect', watch));
-gulp.task('patternlab:dist', gulp.series('p-dist'));
+gulp.task('patternlab:dist', gulp.series('pl-dist'));
 gulp.task('patternlab:clean', gulp.series('pl-clean'));
 gulp.task('serve', gulp.series('patternlab:serve'));
 gulp.task('clean', gulp.series('patternlab:clean'));
