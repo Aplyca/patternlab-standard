@@ -124,3 +124,14 @@ Footer
 	-->    
 	<script src="/dist/js/patternlab-standard.min.js"></script>     
 ```
+
+Cretae a new project using this as boilerplate
+-------------------------------------------
+
+```bash
+git clone git@github.com:Aplyca/patternlab-standard.git new.project-frontend;
+cd new.project-frontend;
+rm -rf .git;
+find ./ -type f -exec sed -i '' -e 's/patternlab-standard/project-frontend/g' {} \;
+find . -name "patternlab-standard.*" -exec sh -c 'mv "$1" "$(dirname ${1})/project-frontend."${1##*.}""' _ {} \;
+```
