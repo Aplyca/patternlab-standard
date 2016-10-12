@@ -139,7 +139,7 @@ gulp.task('pl-dist:js', function(){
 
 // Images copy
 gulp.task('pl-dist:img', function(){
-  return gulp.src('**/*.*',{cwd: path.resolve(paths().public.images)} )
+  return gulp.src('**/*.{ico,png,gif,jpg,jpeg,svg,tif,bmp,ico}', {cwd: path.resolve(paths().public.images)} )
     .pipe(gulp.dest(path.resolve(paths().publish.images)));
 });
 
@@ -151,7 +151,7 @@ gulp.task('pl-dist:favicon', function(){
 
 // Fonts copy
 gulp.task('pl-dist:font', function(){
-  return gulp.src('*', {cwd: path.resolve(paths().public.fonts)})
+  return gulp.src('**/*.{svg,eot,ttf,woff,otf,woff2}', {cwd: path.resolve(paths().public.fonts)})
     .pipe(gulp.dest(path.resolve(paths().publish.fonts)));
 });
 
@@ -164,6 +164,12 @@ gulp.task('pl-dist:css', function(){
     .pipe(gulp.dest(path.resolve(paths().publish.css)))
     .pipe(concat(paths().publish.combineName + '.min.css'))
     .pipe(gulp.dest(path.resolve(paths().publish.css)));
+});
+
+// Fonts copy
+gulp.task('pl-dist:components', function(){
+  return gulp.src('**/*.*', {cwd: path.resolve(paths().public.components)})
+    .pipe(gulp.dest(path.resolve(paths().publish.components)));
 });
 
 /******************************************************
