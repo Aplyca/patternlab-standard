@@ -57,6 +57,12 @@ gulp.task('pl-copy:css', function(){
     .pipe(browserSync.stream());
 });
 
+// Components Copy
+gulp.task('pl-copy:components', function(){
+  return gulp.src('**/*.*',{cwd: path.resolve(paths().source.components)} )
+    .pipe(gulp.dest(path.resolve(paths().public.components)));
+});
+
 // Vendors copy
 gulp.task('pl-copy:vendors', function(){
   return gulp.src('**/*.*',{cwd: path.resolve(paths().source.vendors)} )
@@ -195,6 +201,7 @@ gulp.task('pl-assets', gulp.series(
     'pl-copy:font',
     'pl-stylesheets',
     'pl-copy:ajax',
+    'pl-copy:components',    
     'pl-copy:vendors',
     'pl-copy:styleguide',
     'pl-copy:styleguide-css'
