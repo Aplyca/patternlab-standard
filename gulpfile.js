@@ -223,7 +223,8 @@ gulp.task('pl-dist', gulp.series(
     'pl-dist:img',
     'pl-dist:favicon',
     'pl-dist:font',
-    'pl-dist:css'
+    'pl-dist:css',
+    'pl-dist:components'    
   ),
   function(done){
     done();
