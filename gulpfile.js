@@ -28,19 +28,19 @@ gulp.task('pl-copy:js', function(){
 
 // Images copy
 gulp.task('pl-copy:img', function(){
-  return gulp.src('**/*.*',{cwd: path.resolve(paths().source.images)} )
+  return gulp.src('**/*.{ico,png,gif,jpg,jpeg,svg,tif,bmp,ico}',{cwd: path.resolve(paths().source.images)} )
     .pipe(gulp.dest(path.resolve(paths().public.images)));
 });
 
 // Favicon copy
 gulp.task('pl-copy:favicon', function(){
-  return gulp.src('favicon.ico', {cwd: path.resolve(paths().source.root)} )
+  return gulp.src('*.{ico,png,gif,jpg,jpeg,svg}', {cwd: path.resolve(paths().source.root)} )
     .pipe(gulp.dest(path.resolve(paths().public.root)));
 });
 
 // Fonts copy
 gulp.task('pl-copy:font', function(){
-  return gulp.src('*', {cwd: path.resolve(paths().source.fonts)})
+  return gulp.src('**/*.{svg,eot,ttf,woff,otf,woff2}', {cwd: path.resolve(paths().source.fonts)})
     .pipe(gulp.dest(path.resolve(paths().public.fonts)));
 });
 
@@ -139,7 +139,7 @@ gulp.task('pl-dist:img', function(){
 
 // Favicon copy
 gulp.task('pl-dist:favicon', function(){
-  return gulp.src('favicon.ico', {cwd: path.resolve(paths().public.root)} )
+  return gulp.src('*.{ico,png,gif,jpg,jpeg,svg}', {cwd: path.resolve(paths().public.root)} )
     .pipe(gulp.dest(path.resolve(paths().publish.root)));
 });
 
