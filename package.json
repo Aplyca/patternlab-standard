@@ -1,38 +1,44 @@
 {
-  "name": "patternlab-standard",
+  "name": "patternlab-frontend",
   "version": "0.0.1",
-  "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
+  "description": "Aplyca Pattern lab Frontend standard",
   "main": "./node_modules/patternlab/core/lib/patternlab.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:Aplyca/patternlab-standard.git"
   },
-  "author": "Aplyca SAS",
-  "license": "MIT",
-  "devDependencies": {
-    "patternlab-node": "^2",
+  "author": "Aplyca",
+  "license": "ISC",
+  "dependencies": {
     "browser-sync": "^2",
     "del": "^2",
-    "minimist": "^1",
-    "styleguidekit-assets-default": "*",
-    "styleguidekit-mustache-default": "*",
-    "starterkit-mustache-demo": "*",
     "gulp": "gulpjs/gulp#4.0",
+    "gulp-clean-css": "*",
+    "gulp-coffee": "*",
     "gulp-concat": "*",
-    "gulp-csslint": "*",
-    "gulp-nodeunit": "*",
+    "gulp-csslint": "^1",
+    "gulp-cssnano": "*",
+    "gulp-imagemin": "*",
+    "gulp-git": "*",
+    "gulp-nodeunit": "^0",
+    "gulp-rename": "*",
     "gulp-sass": "^2",
     "gulp-sass-lint": "*",
-    "gulp-cssnano": "*",
-    "gulp-rename": "*",
-    "gulp-sourcemaps": "*",
-    "gulp-uglify": "*"
-  }
-  ,
+    "gulp-shell": "*",
+    "gulp-uglify": "*",
+    "minimist": "^1.2.0",
+    "patternlab-node": "^2",
+    "patternlab-starterkit-mustache": "*"
+  },
+  "devDependencies": {
+    "gulp-stylint": "^4.0.0",
+    "gulp-stylus": "^2.6.0",
+    "stylus": "^0.54.5"
+  },
   "scripts": {
     "test": "grunt travis --verbose",
     "update": "git pull && npm update && bower update && gulp",
     "regenerate": "rm -rf vendor node_modules public dist && npm run update && gulp publish",
-    "starterkit": "mkdir -p source && gulp patternlab:loadstarterkit --kit=starterkit-mustache-demo --clean=true"
+    "starterkit": "gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache --clean=true"
   }
 }

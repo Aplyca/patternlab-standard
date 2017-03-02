@@ -11,10 +11,10 @@
       "images" : "./source/images",
       "fonts" : "./source/fonts",
       "css" : "./source/css/",
-      "components" : "./source/components/",
+      "components" : "./components/",
       "vendors" : "./vendor/",
       "styleguide" : "./node_modules/styleguidekit-assets-default/dist/",
-      "patternlabFiles" : "./node_modules/styleguidekit-mustache-default/views/"      
+      "patternlabFiles" : "./node_modules/styleguidekit-mustache-default/views/"
     },
     "public" : {
       "root" : "./public/",
@@ -37,7 +37,7 @@
       "fonts" : "./dist/fonts",
       "css" : "./dist/css",
       "components" : "./dist/components/",
-      "combineName" : "patternlab-standard"
+      "combineName" : "patternlab-frontend"
     }
   },
   "styleGuideExcludes": [

@@ -1,25 +1,26 @@
 {
-  "name": "patternlab-standard",
+  "name": "patternlab-frontend",
   "authors": [
-    "Aplyca SAS"
+    "Aplyca"
   ],
-  "license": "MIT",
+  "license": "ISC",
   "ignore": [
     "node_modules",
     "vendor",
     "tests",
     "public",
     "source",
+    "components",
     "gulpfile.js",
     "patternlab-config.json"
   ],
   "dependencies": {
-    "jquery": "~2",
-    "respond": "~1",
-    "fitvids": "~1"
   },
   "main": [
-      "dist/css/patternlab-standard.min.css",
-      "dist/css/patternlab-standard.min.js"
-  ]
+    "dist/css/patternlab-frontend.css",
+    "dist/js/patternlab-frontend.js"
+  ],
+  "devDependencies": {
+    "foundation-sites": "^6.3"
+  }
 }

@@ -1,3 +1,4 @@
+# Ignoring
 node_modules/
 .DS_Store
 patternlab.json
@@ -7,3 +8,6 @@ Thumbs.db
 .idea/
 public
 vendor
+/npm-debug.log
+_arts
+*.zip
