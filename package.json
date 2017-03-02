@@ -2,7 +2,7 @@
   "name": "patternlab-frontend",
   "version": "0.0.1",
   "description": "Aplyca Pattern lab Frontend standard",
-  "main": "./node_modules/patternlab/core/lib/patternlab.js",
+  "main": "README.md",
   "repository": {
     "type": "git",
     "url": "git@github.com:Aplyca/patternlab-standard.git"
@@ -27,18 +27,18 @@
     "gulp-shell": "*",
     "gulp-uglify": "*",
     "minimist": "^1.2.0",
-    "patternlab-node": "^2",
-    "patternlab-starterkit-mustache": "*"
+    "patternlab-node": "^2"
   },
   "devDependencies": {
     "gulp-stylint": "^4.0.0",
     "gulp-stylus": "^2.6.0",
-    "stylus": "^0.54.5"
+    "stylus": "^0.54.5",
+    "patternlab-starterkit-mustache": "*"
   },
   "scripts": {
     "test": "grunt travis --verbose",
     "update": "git pull && npm update && bower update && gulp",
     "regenerate": "rm -rf vendor node_modules public dist && npm run update && gulp publish",
-    "starterkit": "gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache --clean=true"
+    "starterkit": "gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache"
   }
 }

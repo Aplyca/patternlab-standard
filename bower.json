@@ -14,8 +14,7 @@
     "gulpfile.js",
     "patternlab-config.json"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "main": [
     "dist/css/patternlab-frontend.css",
     "dist/js/patternlab-frontend.js"
