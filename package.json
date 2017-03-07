@@ -38,7 +38,7 @@
   "scripts": {
     "test": "grunt travis --verbose",
     "update": "git pull && npm update && bower update && gulp",
-    "regenerate": "rm -rf vendor node_modules public dist && npm run update && gulp publish",
+    "regenerate": "rm -rf vendor node_modules public dist && npm run update && gulp publish && gulp serve",
     "starterkit": "gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache"
   }
 }

@@ -9,8 +9,12 @@
     "vendor",
     "tests",
     "public",
+    ".eslintrc",
+    ".sass-lint.yml",
+    ".editorconfig",
+    ".stylintrc",
+    ".bowerrc",
     "source",
-    "components",
     "gulpfile.js",
     "patternlab-config.json"
   ],
