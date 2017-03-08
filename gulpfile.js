@@ -30,7 +30,7 @@ var gulp = require('gulp'),
 gulp.task('pl-copy:js', function(){
   return gulp.src('**/*.js', {cwd: path.resolve(paths().source.js)} )
     .pipe(sourcemaps.init())
-    .pipe(concat(paths().publish.combineName+".js"))
+    .pipe(concat(paths().publish.appName+".js"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.js)))
     .pipe(browserSync.stream());
@@ -40,7 +40,7 @@ gulp.task('pl-copy:js', function(){
 gulp.task('pl-copy:css', function(){
   return gulp.src(path.resolve(paths().source.css, '*.css'))
   .pipe(sourcemaps.init())
-  .pipe(concat(paths().publish.combineName+".css"))
+  .pipe(concat(paths().publish.appName+".css"))
   .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest(path.resolve(paths().public.css)))
   .pipe(browserSync.stream());
@@ -110,7 +110,7 @@ gulp.task('pl-compile:coffee', function(){
   return gulp.src('*.coffee',{cwd: path.resolve(paths().source.js)} )
     .pipe(sourcemaps.init())
     .pipe(coffee())
-    .pipe(concat(paths().publish.combineName+".js"))
+    .pipe(concat(paths().publish.appName+".js"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.js)))
     .pipe(browserSync.stream({match: '**/*.js'}));
@@ -124,7 +124,7 @@ gulp.task('pl-compile:sass', function(){
       outputStyle: 'expanded',
       precision: 8
     }))
-    .pipe(concat(paths().publish.combineName+".css"))
+    .pipe(concat(paths().publish.appName+".css"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.css)))
     .pipe(browserSync.stream({match: '**/*.css'}));
@@ -134,7 +134,7 @@ gulp.task('pl-compile:stylus', function(){
   return gulp.src('*.styl',{cwd: path.resolve(paths().source.css)})
     .pipe(sourcemaps.init())
     .pipe(stylus())
-    .pipe(concat(paths().publish.combineName+".css"))
+    .pipe(concat(paths().publish.appName+".css"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.css)))
     .pipe(browserSync.stream({match: '**/*.css'}));
@@ -183,14 +183,14 @@ gulp.task('pl-clean:public', function(){
 gulp.task('pl-dist:js', function(){
   gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
     .pipe(gulp.dest(path.resolve(paths().publish.js)))
-    .pipe(concat(paths().publish.combineName+".js"))
+    .pipe(concat(paths().publish.appName+".js"))
     .pipe(gulp.dest(path.resolve(paths().publish.js)));
 
   return gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(path.resolve(paths().publish.js)))
-    .pipe(concat(paths().publish.combineName + '.min.js'))
+    .pipe(concat(paths().publish.appName + '.min.js'))
     .pipe(gulp.dest(path.resolve(paths().publish.js)));
 });
 
@@ -216,14 +216,14 @@ gulp.task('pl-dist:font', function(){
 gulp.task('pl-dist:css', function(){
   gulp.src(path.resolve(paths().public.css, '*.css'))
     .pipe(gulp.dest(path.resolve(paths().publish.css)))
-    .pipe(concat(paths().publish.combineName + '.css'))
+    .pipe(concat(paths().publish.appName + '.css'))
     .pipe(gulp.dest(path.resolve(paths().publish.css)));
 
   return gulp.src(path.resolve(paths().public.css, '*.css'))
     .pipe(cleanCSS())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(path.resolve(paths().publish.css)))
-    .pipe(concat(paths().publish.combineName + '.min.css'))
+    .pipe(concat(paths().publish.appName + '.min.css'))
     .pipe(gulp.dest(path.resolve(paths().publish.css)));
 });
 

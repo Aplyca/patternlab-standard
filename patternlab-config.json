@@ -37,7 +37,7 @@
       "fonts" : "./dist/fonts",
       "css" : "./dist/css",
       "components" : "./dist/components/",
-      "combineName" : "patternlab-frontend"
+      "appName" : "app"
     }
   },
   "styleGuideExcludes": [

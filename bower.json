@@ -20,8 +20,8 @@
   ],
   "dependencies": {},
   "main": [
-    "dist/css/patternlab-frontend.css",
-    "dist/js/patternlab-frontend.js"
+    "dist/css/app.css",
+    "dist/js/app.js"
   ],
   "devDependencies": {
     "foundation-sites": "^6.3"
