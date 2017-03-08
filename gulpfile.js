@@ -227,6 +227,12 @@ gulp.task('pl-dist:css', function(){
     .pipe(gulp.dest(path.resolve(paths().publish.css)));
 });
 
+// Components publish    
+gulp.task('pl-dist:components', function(){   
+    return gulp.src('**/*.*', {cwd: path.resolve(paths().public.components)})   
+        .pipe(gulp.dest(path.resolve(paths().publish.components)));   
+});
+
 /******************************************************
  * PATTERN LAB CONFIGURATION - API with core library
 ******************************************************/
@@ -287,7 +293,8 @@ gulp.task('pl-dist', gulp.series(
     'pl-dist:img',
     'pl-dist:favicon',
     'pl-dist:font',
-    'pl-dist:css'
+    'pl-dist:css',
+    'pl-dist:components'    
   ),
   function(done){
     done();

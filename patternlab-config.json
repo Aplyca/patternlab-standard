@@ -11,7 +11,7 @@
       "images" : "./source/images",
       "fonts" : "./source/fonts",
       "css" : "./source/css/",
-      "components" : "./components/",
+      "components" : "./source/components/",
       "vendors" : "./vendor/",
       "styleguide" : "./node_modules/styleguidekit-assets-default/dist/",
       "patternlabFiles" : "./node_modules/styleguidekit-mustache-default/views/"
