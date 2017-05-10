@@ -4,9 +4,9 @@ Pattern Lab Standard Edition
 Requirements
 ------------
 
-1. Install NodeJS: https://nodejs.org/en/download/package-manager/ (`brew isntall node`)
+1. Install NodeJS: https://nodejs.org/en/download/package-manager/ (`brew install node`)
 2. Install Yarn package manager https://yarnpkg.com/en/docs/install (`brew install yarn`)
-3. Install bower package manager: http://bower.io/#install-bower (`npm install -g bower`)
+3. Install bower package manager: http://bower.io/#install-bower (`brew install bower` or `npm install -g bower`)
 4. Install Gulp CLI: https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md#1-install-gulp-globally (`npm install -g gulp-cli`)
 
 Installation
