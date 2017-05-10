@@ -36,9 +36,9 @@
   },
   "scripts": {
     "test": "grunt travis --verbose",
-    "install": "yarn install && bower prune && bower install",
-    "update": "yarn upgrade && bower prune && bower update",    
-    "reinstall": "rm -rf vendor node_modules public dist && yarn run install && gulp publish",
+    "installapp": "yarn install && bower prune && bower install",
+    "updateapp": "yarn upgrade && bower prune && bower update",    
+    "rebuildapp": "rm -rf vendor node_modules public dist && yarn run install && gulp publish",
     "installkit": "gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache && gulp publish"
   }
 }

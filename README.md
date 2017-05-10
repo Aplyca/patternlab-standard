@@ -13,11 +13,11 @@ Installation
 ------------
 
 ```bash
-yarn run install
+yarn run installapp
 ```
 
-Development
------------
+Start working
+-------------
 
 See Pattern Lab docs: http://patternlab.io/docs/index.html
 
@@ -27,10 +27,16 @@ Runnig the server
 gulp serve;
 ```
 
-Updating the App:
+Rebuilding the app:
 
 ```bash
-yarn run update;
+yarn run reinstallapp;
+```
+
+Updating the app:
+
+```bash
+yarn run updateapp;
 ```
 
 Loading a starter kit:
@@ -105,7 +111,7 @@ bower update
 See the instructions of the starter kit in source/README.md
 
 Cretae a new project using this as boilerplate
--------------------------------------------
+----------------------------------------------
 
 ```bash
 git clone git@github.com:Aplyca/patternlab-standard.git app-frontend;
