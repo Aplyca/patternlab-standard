@@ -91,7 +91,6 @@ Create the file in the public directory of the Bundle:
   "dependencies": {
     "patternlab-standard": "git@github.com:Aplyca/patternlab-standard.git"
   }
-
 }
 ```
 
@@ -112,5 +111,5 @@ Cretae a new project using this as boilerplate
 git clone git@github.com:Aplyca/patternlab-standard.git app-frontend;
 cd app-frontend;
 yarn run install;
-yarn run installkit
+yarn run installkit;
 ```
