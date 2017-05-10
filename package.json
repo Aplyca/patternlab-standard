@@ -19,25 +19,26 @@
     "gulp-concat": "*",
     "gulp-csslint": "^1",
     "gulp-cssnano": "*",
-    "gulp-imagemin": "*",
     "gulp-git": "*",
+    "gulp-imagemin": "*",
     "gulp-nodeunit": "^0",
     "gulp-rename": "*",
     "gulp-sass": "^2",
     "gulp-sass-lint": "*",
-    "gulp-shell": "*",    
+    "gulp-shell": "*",
     "gulp-stylint": "^4.0.0",
     "gulp-stylus": "^2.6.0",
     "gulp-uglify": "*",
     "minimist": "^1.2.0",
     "patternlab-node": "^2",
-    "patternlab-starterkit-mustache": "*",        
+    "patternlab-starterkit-mustache": "*",
     "stylus": "^0.54.5"
   },
   "scripts": {
     "test": "grunt travis --verbose",
-    "update": "git pull && yarn install && bower prune && bower update && gulp serve",
-    "regenerate": "rm -rf vendor node_modules public dist && yarn run update && gulp publish && gulp serve",
-    "starterkit": "gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache"
+    "install": "yarn install && bower prune && bower install",
+    "update": "yarn upgrade && bower prune && bower update",    
+    "reinstall": "rm -rf vendor node_modules public dist && yarn run install && gulp publish",
+    "installkit": "gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache && gulp publish"
   }
 }
