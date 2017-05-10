@@ -9,7 +9,8 @@
   },
   "author": "Aplyca",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "browser-sync": "^2",
     "del": "^2",
     "gulp": "gulpjs/gulp#4.0",
@@ -24,16 +25,14 @@
     "gulp-rename": "*",
     "gulp-sass": "^2",
     "gulp-sass-lint": "*",
-    "gulp-shell": "*",
-    "gulp-uglify": "*",
-    "minimist": "^1.2.0",
-    "patternlab-node": "^2"
-  },
-  "devDependencies": {
+    "gulp-shell": "*",    
     "gulp-stylint": "^4.0.0",
     "gulp-stylus": "^2.6.0",
-    "stylus": "^0.54.5",
-    "patternlab-starterkit-mustache": "*"
+    "gulp-uglify": "*",
+    "minimist": "^1.2.0",
+    "patternlab-node": "^2",
+    "patternlab-starterkit-mustache": "*",        
+    "stylus": "^0.54.5"
   },
   "scripts": {
     "test": "grunt travis --verbose",
