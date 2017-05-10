@@ -11,3 +11,4 @@ vendor
 /npm-debug.log
 _arts
 *.zip
+yarn-error.log

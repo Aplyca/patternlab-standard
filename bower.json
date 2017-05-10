@@ -23,7 +23,5 @@
     "dist/css/app.css",
     "dist/js/app.js"
   ],
-  "devDependencies": {
-    "foundation-sites": "^6.3"
-  }
+  "devDependencies": {}
 }

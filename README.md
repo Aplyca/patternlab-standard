@@ -5,14 +5,15 @@ Requirements
 ------------
 
 1. Install NodeJS: https://nodejs.org/en/download/package-manager/ (`brew isntall node`)
-2. Install bower package manager: http://bower.io/#install-bower (`npm install -g bower`)
-3. Install Gulp CLI: https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md#1-install-gulp-globally (`npm install -g gulp-cli`)
+2. Install Yarn package manager https://yarnpkg.com/en/docs/install (`brew install yarn`)
+3. Install bower package manager: http://bower.io/#install-bower (`npm install -g bower`)
+4. Install Gulp CLI: https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md#1-install-gulp-globally (`npm install -g gulp-cli`)
 
 Installation
 ------------
 
 ```bash
-npm run update
+yarn run update
 ```
 
 Development
@@ -29,13 +30,13 @@ gulp serve;
 Updating the App:
 
 ```bash
-npm run update;
+yarn run update;
 ```
 
 Loading a starter kit:
 
 ```bash
-npm run starterkit;
+yarn run starterkit;
 ```
 
 Generating and distributing package
