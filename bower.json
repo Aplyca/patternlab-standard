@@ -16,7 +16,10 @@
     ".bowerrc",
     "source",
     "gulpfile.js",
-    "patternlab-config.json"
+    "patternlab-config.json",
+    "yarn.lock",
+    "package-lock.json",
+    ".gitignore"
   ],
   "dependencies": {},
   "main": [
