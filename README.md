@@ -116,6 +116,6 @@ Cretae a new project using this as boilerplate
 ```bash
 git clone git@github.com:Aplyca/patternlab-standard.git app-frontend;
 cd app-frontend;
-yarn run install;
+yarn run installapp;
 yarn run installkit;
 ```
