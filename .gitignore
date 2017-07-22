@@ -6,8 +6,8 @@ patternlab.json
 /sass-cache
 Thumbs.db
 .idea/
-public
-vendor
+public/
+vendor/
 /npm-debug.log
 _arts
 *.zip

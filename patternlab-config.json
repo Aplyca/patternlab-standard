@@ -12,7 +12,7 @@
       "fonts" : "./source/fonts",
       "css" : "./source/css/",
       "components" : "./source/components/",
-      "vendors" : "./vendor/",
+      "modules" : "./node_modules/",
       "styleguide" : "./node_modules/styleguidekit-assets-default/dist/",
       "patternlabFiles" : "./node_modules/styleguidekit-mustache-default/views/"
     },
@@ -22,7 +22,7 @@
       "data" : "./public/styleguide/data/",
       "annotations" : "./public/annotations/",
       "ajax" : "./public/ajax/",
-      "vendors" : "./public/vendor/",
+      "modules" : "./public/node_modules/",
       "styleguide" : "./public/styleguide/",
       "js" : "./public/js",
       "images" : "./public/images",

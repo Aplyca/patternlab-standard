@@ -9,11 +9,14 @@
   },
   "author": "Aplyca",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "respond.js": "^1.4.2"
+  },
   "devDependencies": {
     "browser-sync": "^2",
     "del": "^2",
-    "gulp": "gulpjs/gulp#4.0",
+    "dependency-info": "*",
+    "gulp": "github:gulpjs/gulp#4.0",
     "gulp-clean-css": "*",
     "gulp-coffee": "*",
     "gulp-concat": "*",
@@ -35,10 +38,8 @@
     "stylus": "^0.54.5"
   },
   "scripts": {
-    "test": "grunt travis --verbose",
-    "installapp": "yarn install && bower prune && bower install",
-    "updateapp": "yarn upgrade && bower prune && bower update",    
-    "reinstallapp": "rm -rf vendor node_modules public dist && yarn run installapp && gulp publish",
+    "start": "gulp serve",
+    "pack": "gulp publish",
     "installkit": "gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache && gulp publish"
   }
 }

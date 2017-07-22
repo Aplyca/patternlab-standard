@@ -22,6 +22,7 @@ var gulp = require('gulp'),
   git = require('gulp-git');
   argv = require('minimist')(process.argv.slice(2));
   shell = require('gulp-shell');
+  fs = require('fs');
 
 /******************************************************
  * COPY TASKS - stream assets from source to public
@@ -78,10 +79,10 @@ gulp.task('pl-copy:components', function(){
     .pipe(gulp.dest(path.resolve(paths().public.components)));
 });
 
-// Vendors copy
-gulp.task('pl-copy:vendors', function(){
-  return gulp.src('**/*.*',{cwd: path.resolve(paths().source.vendors)} )
-    .pipe(gulp.dest(path.resolve(paths().public.vendors)));
+// Modules copy
+gulp.task('pl-copy:modules', function(){
+  return gulp.src(['node_modules'])
+    .pipe(gulp.symlink('public'));
 });
 
 // Styleguide Copy everything but css
@@ -227,17 +228,18 @@ gulp.task('pl-dist:css', function(){
     .pipe(gulp.dest(path.resolve(paths().publish.css)));
 });
 
-// Components publish    
-gulp.task('pl-dist:components', function(){   
-    return gulp.src('**/*.*', {cwd: path.resolve(paths().public.components)})   
-        .pipe(gulp.dest(path.resolve(paths().publish.components)));   
+// Components publish
+gulp.task('pl-dist:components', function(){
+    return gulp.src('**/*.*', {cwd: path.resolve(paths().public.components)})
+        .pipe(gulp.dest(path.resolve(paths().publish.components)));
 });
 
 /******************************************************
  * PATTERN LAB CONFIGURATION - API with core library
 ******************************************************/
 //read all paths from our namespaced config file
-var config = require('./patternlab-config.json'),
+var config = JSON.parse(fs.readFileSync('./patternlab-config.json')),
+  npmConfig = JSON.parse(fs.readFileSync('./package.json')),
   patternlab = require('patternlab-node')(config);
 
 function paths() {
@@ -278,7 +280,7 @@ gulp.task('pl-assets', gulp.series(
     'pl-copy:font',
     'pl-copy:ajax',
     'pl-copy:components',
-    'pl-copy:vendors',
+    'pl-copy:modules',
     'pl-copy:styleguide',
     'pl-copy:styleguide-css'
   ),
@@ -294,7 +296,7 @@ gulp.task('pl-dist', gulp.series(
     'pl-dist:favicon',
     'pl-dist:font',
     'pl-dist:css',
-    'pl-dist:components'    
+    'pl-dist:components'
   ),
   function(done){
     done();
