@@ -36,7 +36,8 @@
   },
   "scripts": {
     "start": "npx gulp serve",
-    "dist": "npx gulp dist",
-    "installkit": "npx gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache && npx gulp publish"
+    "bundle": "npx gulp bundle",
+    "gulp": "npx gulp",
+    "installkit": "npx gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache && npm run bundle"
   }
 }

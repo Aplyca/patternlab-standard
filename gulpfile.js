@@ -31,7 +31,7 @@ var gulp = require('gulp'),
 gulp.task('pl-copy:js', function(){
   return gulp.src('**/*.js', {cwd: path.resolve(paths().source.js)} )
     .pipe(sourcemaps.init())
-    .pipe(concat(paths().dist.appName+".js"))
+    .pipe(concat(paths().bundle.appName+".js"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.js)))
     .pipe(browserSync.stream());
@@ -41,7 +41,7 @@ gulp.task('pl-copy:js', function(){
 gulp.task('pl-copy:css', function(){
   return gulp.src(path.resolve(paths().source.css, '*.css'))
   .pipe(sourcemaps.init())
-  .pipe(concat(paths().dist.appName+".css"))
+  .pipe(concat(paths().bundle.appName+".css"))
   .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest(path.resolve(paths().public.css)))
   .pipe(browserSync.stream());
@@ -111,7 +111,7 @@ gulp.task('pl-compile:coffee', function(){
   return gulp.src('*.coffee',{cwd: path.resolve(paths().source.js)} )
     .pipe(sourcemaps.init())
     .pipe(coffee())
-    .pipe(concat(paths().dist.appName+".js"))
+    .pipe(concat(paths().bundle.appName+".js"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.js)))
     .pipe(browserSync.stream({match: '**/*.js'}));
@@ -125,7 +125,7 @@ gulp.task('pl-compile:sass', function(){
       outputStyle: 'expanded',
       precision: 8
     }))
-    .pipe(concat(paths().dist.appName+".css"))
+    .pipe(concat(paths().bundle.appName+".css"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.css)))
     .pipe(browserSync.stream({match: '**/*.css'}));
@@ -135,7 +135,7 @@ gulp.task('pl-compile:stylus', function(){
   return gulp.src('*.styl',{cwd: path.resolve(paths().source.css)})
     .pipe(sourcemaps.init())
     .pipe(stylus())
-    .pipe(concat(paths().dist.appName+".css"))
+    .pipe(concat(paths().bundle.appName+".css"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.css)))
     .pipe(browserSync.stream({match: '**/*.css'}));
@@ -169,69 +169,69 @@ gulp.task('pl-validate:stylus', function() {
  * CLEAN TASKS - Clean assets
 ******************************************************/
 // Clean
-gulp.task('pl-clean:dist', function(){
-  return del([path.resolve(paths().dist.root) + '**/*']);
+gulp.task('pl-clean:bundle', function(){
+  return del([path.resolve(paths().bundle.root) + '**/*']);
 });
 
 gulp.task('pl-clean:public', function(){
   return del([path.resolve(paths().public.root) + '**/*']);
 });
 
-/******************************************************
- * DISTRIBUTION TASKS - stream assets from public to dist
-******************************************************/
+/**************************************************************
+ * BUNDLE TASKS - stream assets from public to bundle directory
+***************************************************************/
 // JS copy
-gulp.task('pl-dist:js', function(){
+gulp.task('pl-bundle:js', function(){
   gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
-    .pipe(gulp.dest(path.resolve(paths().dist.js)))
-    .pipe(concat(paths().dist.appName+".js"))
-    .pipe(gulp.dest(path.resolve(paths().dist.js)));
+    .pipe(gulp.dest(path.resolve(paths().bundle.js)))
+    .pipe(concat(paths().bundle.appName+".js"))
+    .pipe(gulp.dest(path.resolve(paths().bundle.js)));
 
   return gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest(path.resolve(paths().dist.js)))
-    .pipe(concat(paths().dist.appName + '.min.js'))
-    .pipe(gulp.dest(path.resolve(paths().dist.js)));
+    .pipe(gulp.dest(path.resolve(paths().bundle.js)))
+    .pipe(concat(paths().bundle.appName + '.min.js'))
+    .pipe(gulp.dest(path.resolve(paths().bundle.js)));
 });
 
 // Images copy
-gulp.task('pl-dist:img', function(){
+gulp.task('pl-bundle:img', function(){
   return gulp.src('**/*.{ico,png,gif,jpg,jpeg,svg,tif,bmp,ico}', {cwd: path.resolve(paths().public.images)} )
-    .pipe(gulp.dest(path.resolve(paths().dist.images)));
+    .pipe(gulp.dest(path.resolve(paths().bundle.images)));
 });
 
 // Favicon copy
-gulp.task('pl-dist:favicon', function(){
+gulp.task('pl-bundle:favicon', function(){
   return gulp.src('*.{ico,png,gif,jpg,jpeg,svg}', {cwd: path.resolve(paths().public.root)} )
-    .pipe(gulp.dest(path.resolve(paths().dist.root)));
+    .pipe(gulp.dest(path.resolve(paths().bundle.root)));
 });
 
 // Fonts copy
-gulp.task('pl-dist:font', function(){
+gulp.task('pl-bundle:font', function(){
   return gulp.src('**/*.{svg,eot,ttf,woff,otf,woff2}', {cwd: path.resolve(paths().public.fonts)})
-    .pipe(gulp.dest(path.resolve(paths().dist.fonts)));
+    .pipe(gulp.dest(path.resolve(paths().bundle.fonts)));
 });
 
 // CSS Copy
-gulp.task('pl-dist:css', function(){
+gulp.task('pl-bundle:css', function(){
   gulp.src(path.resolve(paths().public.css, '*.css'))
-    .pipe(gulp.dest(path.resolve(paths().dist.css)))
-    .pipe(concat(paths().dist.appName + '.css'))
-    .pipe(gulp.dest(path.resolve(paths().dist.css)));
+    .pipe(gulp.dest(path.resolve(paths().bundle.css)))
+    .pipe(concat(paths().bundle.appName + '.css'))
+    .pipe(gulp.dest(path.resolve(paths().bundle.css)));
 
   return gulp.src(path.resolve(paths().public.css, '*.css'))
     .pipe(cleanCSS())
     .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest(path.resolve(paths().dist.css)))
-    .pipe(concat(paths().dist.appName + '.min.css'))
-    .pipe(gulp.dest(path.resolve(paths().dist.css)));
+    .pipe(gulp.dest(path.resolve(paths().bundle.css)))
+    .pipe(concat(paths().bundle.appName + '.min.css'))
+    .pipe(gulp.dest(path.resolve(paths().bundle.css)));
 });
 
-// Components dist
-gulp.task('pl-dist:components', function(){
+// Components bundle
+gulp.task('pl-bundle:components', function(){
     return gulp.src('**/*.*', {cwd: path.resolve(paths().public.components)})
-        .pipe(gulp.dest(path.resolve(paths().dist.components)));
+        .pipe(gulp.dest(path.resolve(paths().bundle.components)));
 });
 
 /******************************************************
@@ -289,14 +289,14 @@ gulp.task('pl-assets', gulp.series(
   })
 );
 
-gulp.task('pl-dist', gulp.series(
+gulp.task('pl-bundle', gulp.series(
   gulp.parallel(
-    'pl-dist:js',
-    'pl-dist:img',
-    'pl-dist:favicon',
-    'pl-dist:font',
-    'pl-dist:css',
-    'pl-dist:components'
+    'pl-bundle:js',
+    'pl-bundle:img',
+    'pl-bundle:favicon',
+    'pl-bundle:font',
+    'pl-bundle:css',
+    'pl-bundle:components'
   ),
   function(done){
     done();
@@ -306,7 +306,7 @@ gulp.task('pl-dist', gulp.series(
 gulp.task('pl-clean', gulp.series(
   gulp.parallel(
     'pl-clean:public',
-    'pl-clean:dist'
+    'pl-clean:bundle'
   ),
   function(done){
     done();
@@ -432,12 +432,12 @@ gulp.task('patternlab:connect', gulp.series(function(done) {
 gulp.task('default', gulp.series('patternlab:build'));
 gulp.task('patternlab:watch', gulp.series('patternlab:build', watch));
 gulp.task('patternlab:serve', gulp.series('patternlab:build', 'patternlab:connect', watch));
-gulp.task('patternlab:dist', gulp.series('pl-dist'));
+gulp.task('patternlab:bundle', gulp.series('pl-bundle'));
 gulp.task('patternlab:clean', gulp.series('pl-clean'));
 gulp.task('serve', gulp.series('patternlab:serve'));
 gulp.task('clean', gulp.series('patternlab:clean'));
 gulp.task('build', gulp.series('patternlab:build'));
-gulp.task('dist', gulp.series('patternlab:clean', 'patternlab:build', 'patternlab:dist'));
+gulp.task('bundle', gulp.series('patternlab:clean', 'patternlab:build', 'patternlab:bundle'));
 
 /******************************************************
  * UTILITY TASKS
@@ -461,6 +461,6 @@ gulp.task('git:pull', function (done) {
 
 gulp.task('push', gulp.series(
   "git:pull",
-  "dist",
+  "bundle",
   "git:push"
 ));

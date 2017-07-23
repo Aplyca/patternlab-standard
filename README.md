@@ -40,7 +40,7 @@ Generating and distributing package
 To generate the distribution package
 
 ```bash
-npm run dist
+npm run bundle
 ```
 
 This will generate the necessary files in the `dist` directory. Then commit and push to the repo.

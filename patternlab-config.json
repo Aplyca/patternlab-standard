@@ -30,7 +30,7 @@
       "css" : "./public/css",
       "components" : "./public/components"
     },
-    "dist" : {
+    "bundle" : {
       "root" : "./dist/",
       "js" : "./dist/js",
       "images" : "./dist/images",
