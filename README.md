@@ -5,7 +5,6 @@ Requirements
 ------------
 
 * Install NodeJS: https://nodejs.org/en/download/package-manager/ (`brew install node`)
-* Install Gulp CLI: https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md#1-install-gulp-globally (`npm install -g gulp-cli`)
 
 Optional:
 
@@ -16,6 +15,12 @@ Installation
 
 ```bash
 npm i
+```
+
+Updating the app:
+
+```bash
+npm up
 ```
 
 Start working
@@ -29,19 +34,13 @@ Runnig the server
 npm run start
 ```
 
-Updating the app:
-
-```bash
-npm up
-```
-
 Generating and distributing package
 -----------------------------------
 
 To generate the distribution package
 
 ```bash
-npm run pack
+npm run dist
 ```
 
 This will generate the necessary files in the `dist` directory. Then commit and push to the repo.
