@@ -1,6 +1,6 @@
 {
-  "name": "patternlab-frontend",
-  "version": "0.0.2",
+  "name": "patternlab-standard",
+  "version": "1.0.1",
   "description": "Aplyca Pattern lab Frontend standard",
   "main": "README.md",
   "repository": {
