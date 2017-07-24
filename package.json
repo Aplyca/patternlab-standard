@@ -35,9 +35,12 @@
     "stylus": "^0.54.5"
   },
   "scripts": {
+    "preversion": "git checkout master",
+    "postversion": "git push && git push --tags",
     "start": "npx gulp serve",
     "bundle": "npx gulp bundle",
+    "push": "git pull && npm run bundle && npx gulp git:push -m",
     "gulp": "npx gulp",
-    "installkit": "npx gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache && npm run bundle"
+    "installkit": "npx gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache"
   }
 }

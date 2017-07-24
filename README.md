@@ -37,13 +37,27 @@ npm run start
 Generating and distributing package
 -----------------------------------
 
-To generate the distribution package
+To generate the distribution package:
 
 ```bash
 npm run bundle
 ```
+This will generate the necessary files in the `dist` directory.
 
-This will generate the necessary files in the `dist` directory. Then commit and push to the repo.
+Pushing your changes:
+
+```bash
+npm run push "Commit message"
+```
+This will push all your changes to the repo.
+
+
+Bump version:
+
+```bash
+npm version <patch|minor|major>
+```
+This will checkout to master, bump version in `package.json`, create an push the tags.
 
 Using in the site
 -----------------
@@ -71,7 +85,7 @@ Create the file in the public directory of the Bundle:
   "author": "Aplyca",
   "license": "ISC",
   "dependencies": {
-    "tci-frontend": "git+ssh://git@github.com:Aplyca/patternlab-standard.git#master"
+    "patternlab-standard-frontend": "git+ssh://git@github.com:Aplyca/patternlab-standard.git#master"
   },
   "devDependencies": {}
 }

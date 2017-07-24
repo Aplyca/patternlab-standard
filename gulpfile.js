@@ -31,7 +31,7 @@ var gulp = require('gulp'),
 gulp.task('pl-copy:js', function(){
   return gulp.src('**/*.js', {cwd: path.resolve(paths().source.js)} )
     .pipe(sourcemaps.init())
-    .pipe(concat(paths().bundle.appName+".js"))
+    .pipe(concat(paths().bundle.name+".js"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.js)))
     .pipe(browserSync.stream());
@@ -41,7 +41,7 @@ gulp.task('pl-copy:js', function(){
 gulp.task('pl-copy:css', function(){
   return gulp.src(path.resolve(paths().source.css, '*.css'))
   .pipe(sourcemaps.init())
-  .pipe(concat(paths().bundle.appName+".css"))
+  .pipe(concat(paths().bundle.name+".css"))
   .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest(path.resolve(paths().public.css)))
   .pipe(browserSync.stream());
@@ -111,7 +111,7 @@ gulp.task('pl-compile:coffee', function(){
   return gulp.src('*.coffee',{cwd: path.resolve(paths().source.js)} )
     .pipe(sourcemaps.init())
     .pipe(coffee())
-    .pipe(concat(paths().bundle.appName+".js"))
+    .pipe(concat(paths().bundle.name+".js"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.js)))
     .pipe(browserSync.stream({match: '**/*.js'}));
@@ -125,7 +125,7 @@ gulp.task('pl-compile:sass', function(){
       outputStyle: 'expanded',
       precision: 8
     }))
-    .pipe(concat(paths().bundle.appName+".css"))
+    .pipe(concat(paths().bundle.name+".css"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.css)))
     .pipe(browserSync.stream({match: '**/*.css'}));
@@ -135,7 +135,7 @@ gulp.task('pl-compile:stylus', function(){
   return gulp.src('*.styl',{cwd: path.resolve(paths().source.css)})
     .pipe(sourcemaps.init())
     .pipe(stylus())
-    .pipe(concat(paths().bundle.appName+".css"))
+    .pipe(concat(paths().bundle.name+".css"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.css)))
     .pipe(browserSync.stream({match: '**/*.css'}));
@@ -184,14 +184,14 @@ gulp.task('pl-clean:public', function(){
 gulp.task('pl-bundle:js', function(){
   gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
     .pipe(gulp.dest(path.resolve(paths().bundle.js)))
-    .pipe(concat(paths().bundle.appName+".js"))
+    .pipe(concat(paths().bundle.name+".js"))
     .pipe(gulp.dest(path.resolve(paths().bundle.js)));
 
   return gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
     .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(path.resolve(paths().bundle.js)))
-    .pipe(concat(paths().bundle.appName + '.min.js'))
+    .pipe(concat(paths().bundle.name + '.min.js'))
     .pipe(gulp.dest(path.resolve(paths().bundle.js)));
 });
 
@@ -217,14 +217,14 @@ gulp.task('pl-bundle:font', function(){
 gulp.task('pl-bundle:css', function(){
   gulp.src(path.resolve(paths().public.css, '*.css'))
     .pipe(gulp.dest(path.resolve(paths().bundle.css)))
-    .pipe(concat(paths().bundle.appName + '.css'))
+    .pipe(concat(paths().bundle.name + '.css'))
     .pipe(gulp.dest(path.resolve(paths().bundle.css)));
 
   return gulp.src(path.resolve(paths().public.css, '*.css'))
     .pipe(cleanCSS())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(path.resolve(paths().bundle.css)))
-    .pipe(concat(paths().bundle.appName + '.min.css'))
+    .pipe(concat(paths().bundle.name + '.min.css'))
     .pipe(gulp.dest(path.resolve(paths().bundle.css)));
 });
 
@@ -448,19 +448,3 @@ gulp.task('git:push', shell.task([
   'git commit -am "'+argv.m+'"',
   'git push'
 ]))
-
-gulp.task('release', shell.task([
-  'git tag -a '+argv.t+' -m "new version '+argv.t+'"',
-  'git push origin '+argv.t
-]))
-
-gulp.task('git:pull', function (done) {
-  git.pull();
-  done();
-});
-
-gulp.task('push', gulp.series(
-  "git:pull",
-  "bundle",
-  "git:push"
-));
