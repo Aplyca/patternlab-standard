@@ -4,11 +4,8 @@ Pattern Lab Standard Edition
 Requirements
 ------------
 
-* Install NodeJS: https://nodejs.org/en/download/package-manager/ (`brew install node`)
+* NodeJS: https://nodejs.org/en/download/package-manager/ (`brew install node`)
 
-Optional:
-
-* Install Yarn package manager https://yarnpkg.com/en/docs/install (`brew install yarn`)
 
 Installation
 ------------
@@ -31,7 +28,7 @@ See Pattern Lab docs: http://patternlab.io/docs/index.html
 Runnig the server
 
 ```bash
-npm run start
+npm start
 ```
 
 Generating and distributing package
@@ -57,7 +54,7 @@ Bump version:
 ```bash
 npm version <patch|minor|major>
 ```
-This will checkout to master, bump version in `package.json`, create an push the tags.
+This will checkout to master, bump version in `package.json`, create and push the tags.
 
 Using in the site
 -----------------
@@ -68,14 +65,14 @@ Using in the site
 npm install git@github.com:Aplyca/patternlab-standard.git#master --save
 ```
 
-### Using bower.json
+### Using package.json
 
 Create the file in the public directory of the Bundle:
 
 ```json
 {
   "name": "app-frontend",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "App Frontend",
   "main": "README.md",
   "repository": {
@@ -86,8 +83,7 @@ Create the file in the public directory of the Bundle:
   "license": "ISC",
   "dependencies": {
     "patternlab-standard-frontend": "git+ssh://git@github.com:Aplyca/patternlab-standard.git#master"
-  },
-  "devDependencies": {}
+  }
 }
 ```
 
