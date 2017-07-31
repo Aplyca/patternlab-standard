@@ -25,7 +25,7 @@ Start working
 
 See Pattern Lab docs: http://patternlab.io/docs/index.html
 
-Runnig the server
+Running the server
 
 ```bash
 npm start
@@ -71,13 +71,13 @@ Create the file in the public directory of the Bundle:
 
 ```json
 {
-  "name": "app-frontend",
+  "name": "app",
   "version": "1.0.0",
   "description": "App Frontend",
   "main": "README.md",
   "repository": {
     "type": "git",
-    "url": "ttps://github.com/Aplyca/patternlab-standard"
+    "url": "git@github.com:Aplyca/patternlab-standard.git"
   },
   "author": "Aplyca",
   "license": "ISC",
