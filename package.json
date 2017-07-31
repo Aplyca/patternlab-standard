@@ -19,7 +19,6 @@
     "gulp-concat": "*",
     "gulp-csslint": "^1",
     "gulp-cssnano": "*",
-    "gulp-git": "*",
     "gulp-imagemin": "*",
     "gulp-nodeunit": "^0",
     "gulp-rename": "*",
@@ -35,12 +34,17 @@
     "stylus": "^0.54.5"
   },
   "scripts": {
+    "postinstall": "npm prune",
     "preversion": "git checkout master",
     "postversion": "git push && git push --tags",
     "start": "npx gulp serve",
     "bundle": "npx gulp bundle",
-    "push": "git pull && npm run bundle && npx gulp git:push -m",
+    "push": "git push -u origin `git rev-parse --abbrev-ref HEAD` && git pull && npm run bundle && npx gulp git:push -m",
     "gulp": "npx gulp",
     "installkit": "npx gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache"
+  },
+  "engines": {
+    "node": "~8.2",
+    "npm": "~5.3"
   }
 }

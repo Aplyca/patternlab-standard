@@ -1,5 +1,5 @@
 Pattern Lab Standard Edition
-=======================================
+============================
 
 Requirements
 ------------
@@ -81,8 +81,13 @@ Create the file in the public directory of the Bundle:
   },
   "author": "Aplyca",
   "license": "ISC",
+  "private": true,  
   "dependencies": {
     "patternlab-standard-frontend": "git+ssh://git@github.com:Aplyca/patternlab-standard.git#master"
+  },
+  "engines": {
+    "node": "~8.2",
+    "npm": "~5.3"
   }
 }
 ```

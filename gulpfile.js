@@ -19,7 +19,6 @@ var gulp = require('gulp'),
   stylint = require('gulp-stylint'),
   sass = require('gulp-sass'),
   browserSync = require('browser-sync').create(),
-  git = require('gulp-git');
   argv = require('minimist')(process.argv.slice(2));
   shell = require('gulp-shell');
   fs = require('fs');
@@ -446,5 +445,6 @@ gulp.task('bundle', gulp.series('patternlab:clean', 'patternlab:build', 'pattern
 gulp.task('git:push', shell.task([
   'git add -A .',
   'git commit -am "'+argv.m+'"',
+  'git pull',
   'git push'
 ]))
