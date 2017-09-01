@@ -94,6 +94,7 @@ gulp.task('pl-copy:components', function() {
 
 // Modules copy
 gulp.task('pl-copy:modules', function(done) {
+
   Object.keys(packageConfig.dependencies).forEach(function(dependency) {
     gulp.src('**/*.*', {
         cwd: paths().source.modules + "/" + dependency
@@ -384,7 +385,7 @@ gulp.task('patternlab:loadstarterkit', function(done) {
   done();
 });
 
-gulp.task('patternlab:build', gulp.series('pl-assets', build, function(done) {
+gulp.task('pl-build', gulp.series('pl-assets', build, function(done) {
   done();
 }));
 
@@ -493,16 +494,16 @@ gulp.task('patternlab:connect', gulp.series(function(done) {
 /******************************************************
  * COMPOUND TASKS
  ******************************************************/
-gulp.task('default', gulp.series('patternlab:build'));
-gulp.task('patternlab:watch', gulp.series('patternlab:build', watch));
-gulp.task('patternlab:serve', gulp.series('patternlab:build', 'patternlab:connect', watch));
-gulp.task('patternlab:bundle', gulp.series('pl-bundle'));
+gulp.task('default', gulp.series('pl-build'));
+gulp.task('patternlab:watch', gulp.series('pl-build', watch));
 gulp.task('patternlab:clean', gulp.series('pl-clean'));
-gulp.task('serve', gulp.series('patternlab:serve'));
+gulp.task('patternlab:build', gulp.series('patternlab:clean', 'pl-build'));
+gulp.task('patternlab:bundle', gulp.series('patternlab:build', 'pl-bundle'));
+gulp.task('patternlab:serve', gulp.series('patternlab:build', 'patternlab:connect', watch));
 gulp.task('clean', gulp.series('patternlab:clean'));
 gulp.task('build', gulp.series('patternlab:build'));
-gulp.task('bundle', gulp.series('patternlab:clean', 'patternlab:build', 'patternlab:bundle'));
-
+gulp.task('bundle', gulp.series('patternlab:bundle'));
+gulp.task('serve', gulp.series('patternlab:serve'));
 /******************************************************
  * UTILITY TASKS
  ******************************************************/

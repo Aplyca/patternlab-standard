@@ -10,12 +10,7 @@
   },
   "author": "Aplyca",
   "license": "ISC",
-  "dependencies": {
-    "gulp-csslint": "^1",
-    "gulp-cssnano": "*",
-    "gulp-imagemin": "*",
-    "gulp-nodeunit": "^0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2",
     "del": "^2",
