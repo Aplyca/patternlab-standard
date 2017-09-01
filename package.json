@@ -10,7 +10,12 @@
   },
   "author": "Aplyca",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-csslint": "^1",
+    "gulp-cssnano": "*",
+    "gulp-imagemin": "*",
+    "gulp-nodeunit": "^0"
+  },
   "devDependencies": {
     "browser-sync": "^2",
     "del": "^2",
@@ -23,6 +28,7 @@
     "gulp-imagemin": "*",
     "gulp-nodeunit": "^0",
     "gulp-rename": "*",
+    "gulp-replace": "*",
     "gulp-sass": "^2",
     "gulp-sass-lint": "*",
     "gulp-shell": "*",
@@ -32,7 +38,8 @@
     "minimist": "^1.2.0",
     "patternlab-node": "^2",
     "patternlab-starterkit-mustache": "*",
-    "stylus": "^0.54.5"
+    "stylint": "^1.5",
+    "stylus": "^0.54"
   },
   "scripts": {
     "postinstall": "npm prune",
@@ -40,9 +47,10 @@
     "postversion": "git push && git push --tags",
     "start": "npx gulp serve",
     "bundle": "npx gulp bundle",
-    "push": "git push -u origin `git rev-parse --abbrev-ref HEAD` && git pull && npm run bundle && npx gulp git:push -m",
+    "push": "git pull && git push -u origin `git rev-parse --abbrev-ref HEAD` && npm run bundle && npx gulp git:push -m",
     "gulp": "npx gulp",
-    "installkit": "npx gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache"
+    "installkit": "npx gulp patternlab:loadstarterkit --kit=patternlab-starterkit-mustache",
+    "build": "npx gulp build"
   },
   "engines": {
     "node": "~8.2",

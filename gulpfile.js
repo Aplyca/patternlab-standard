@@ -2,7 +2,7 @@
  * PATTERN LAB NODE
  * EDITION-NODE-GULP
  * The gulp wrapper around patternlab-node core, providing tasks to interact with the core library and move supporting frontend assets.
-******************************************************/
+ ******************************************************/
 var gulp = require('gulp'),
   path = require('path'),
   del = require('del'),
@@ -20,81 +20,100 @@ var gulp = require('gulp'),
   sass = require('gulp-sass'),
   browserSync = require('browser-sync').create(),
   argv = require('minimist')(process.argv.slice(2));
-  shell = require('gulp-shell');
-  fs = require('fs');
+shell = require('gulp-shell');
+fs = require('fs');
 
 /******************************************************
  * COPY TASKS - stream assets from source to public
-******************************************************/
+ ******************************************************/
 // JS copy
-gulp.task('pl-copy:js', function(){
-  return gulp.src('**/*.js', {cwd: path.resolve(paths().source.js)} )
+gulp.task('pl-copy:js', function() {
+  return gulp.src('**/*.js', {
+      cwd: path.resolve(paths().source.js)
+    })
     .pipe(sourcemaps.init())
-    .pipe(concat(paths().bundle.name+".js"))
+    .pipe(concat(paths().bundle.name + ".js"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.js)))
     .pipe(browserSync.stream());
 });
 
 // CSS Copy
-gulp.task('pl-copy:css', function(){
+gulp.task('pl-copy:css', function() {
   return gulp.src(path.resolve(paths().source.css, '*.css'))
-  .pipe(sourcemaps.init())
-  .pipe(concat(paths().bundle.name+".css"))
-  .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest(path.resolve(paths().public.css)))
-  .pipe(browserSync.stream());
+    .pipe(sourcemaps.init())
+    .pipe(concat(paths().bundle.name + ".css"))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(path.resolve(paths().public.css)))
+    .pipe(browserSync.stream());
 });
 
 // Images copy
-gulp.task('pl-copy:img', function(){
-  return gulp.src('**/*.{ico,png,gif,jpg,jpeg,svg,tif,bmp,ico}',{cwd: path.resolve(paths().source.images)} )
-    .pipe(imagemin({optimizationLevel: 5}))
+gulp.task('pl-copy:img', function() {
+  return gulp.src('**/*.{ico,png,gif,jpg,jpeg,svg,tif,bmp,ico}', {
+      cwd: path.resolve(paths().source.images)
+    })
+    .pipe(imagemin({
+      optimizationLevel: 5
+    }))
     .pipe(gulp.dest(path.resolve(paths().public.images)));
 });
 
 // Favicon copy
-gulp.task('pl-copy:favicon', function(){
-  return gulp.src('*.{ico,png,gif,jpg,jpeg,svg}', {cwd: path.resolve(paths().source.root)} )
-    .pipe(imagemin({optimizationLevel: 5}))
+gulp.task('pl-copy:favicon', function() {
+  return gulp.src('*.{ico,png,gif,jpg,jpeg,svg}', {
+      cwd: path.resolve(paths().source.root)
+    })
+    .pipe(imagemin({
+      optimizationLevel: 5
+    }))
     .pipe(gulp.dest(path.resolve(paths().public.root)));
 });
 
 // Fonts copy
-gulp.task('pl-copy:font', function(){
-  return gulp.src('**/*.{svg,eot,ttf,woff,otf,woff2}', {cwd: path.resolve(paths().source.fonts)})
+gulp.task('pl-copy:font', function() {
+  return gulp.src('**/*.{svg,eot,ttf,woff,otf,woff2}', {
+      cwd: path.resolve(paths().source.fonts)
+    })
     .pipe(gulp.dest(path.resolve(paths().public.fonts)));
 });
 
 // AJAX Copy
-gulp.task('pl-copy:ajax', function(){
+gulp.task('pl-copy:ajax', function() {
   return gulp.src(path.resolve(paths().source.ajax, '**/*'))
     .pipe(gulp.dest(path.resolve(paths().public.ajax)));
 });
 
 // Components Copy
-gulp.task('pl-copy:components', function(){
-  return gulp.src('**/*.*',{cwd: path.resolve(paths().source.components)} )
+gulp.task('pl-copy:components', function() {
+  return gulp.src('**/*.*', {
+      cwd: path.resolve(paths().source.components)
+    })
     .pipe(gulp.dest(path.resolve(paths().public.components)));
 });
 
 // Modules copy
-gulp.task('pl-copy:modules', function(){
-  return gulp.src([path.resolve(paths().source.modules)])
-    .pipe(gulp.symlink(path.resolve(paths().public.root)));
+gulp.task('pl-copy:modules', function(done) {
+  Object.keys(packageConfig.dependencies).forEach(function(dependency) {
+    gulp.src('**/*.*', {
+        cwd: paths().source.modules + "/" + dependency
+      })
+      .pipe(gulp.dest(paths().public.root + "/" + paths().source.modules + "/" + dependency));
+  });
+  done();
 });
 
 // Styleguide Copy everything but css
-gulp.task('pl-copy:styleguide', function(){
+gulp.task('pl-copy:styleguide', function() {
   return gulp.src(path.resolve(paths().source.styleguide, '**/!(*.css)'))
     .pipe(gulp.dest(path.resolve(paths().public.root)))
     .pipe(browserSync.stream());
 });
 
 // Styleguide Copy and flatten css
-gulp.task('pl-copy:styleguide-css', function(){
+gulp.task('pl-copy:styleguide-css', function() {
   return gulp.src(path.resolve(paths().source.styleguide, '**/*.css'))
-    .pipe(gulp.dest(function(file){
+    .pipe(gulp.dest(function(file) {
       //flatten anything inside the styleguide into a single output dir per http://stackoverflow.com/a/34317320/1790362
       file.path = path.join(file.base, path.basename(file.path));
       return path.resolve(path.join(paths().public.styleguide, 'css'));
@@ -104,116 +123,146 @@ gulp.task('pl-copy:styleguide-css', function(){
 
 /******************************************************
  * COMPILE TASKS - Compile assets
-******************************************************/
+ ******************************************************/
 // Compile CoffeeScript
-gulp.task('pl-compile:coffee', function(){
-  return gulp.src('*.coffee',{cwd: path.resolve(paths().source.js)} )
+gulp.task('pl-compile:coffee', function() {
+  return gulp.src('*.coffee', {
+      cwd: path.resolve(paths().source.js)
+    })
     .pipe(sourcemaps.init())
     .pipe(coffee())
-    .pipe(concat(paths().bundle.name+".js"))
+    .pipe(concat(paths().bundle.name + ".js"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.js)))
-    .pipe(browserSync.stream({match: '**/*.js'}));
+    .pipe(browserSync.stream({
+      match: '**/*.js'
+    }));
 })
 
 // Compile Sass
-gulp.task('pl-compile:sass', function(){
-  return gulp.src('*.scss',{cwd: path.resolve(paths().source.css)} )
+gulp.task('pl-compile:sass', function() {
+  return gulp.src('*.scss', {
+      cwd: path.resolve(paths().source.css)
+    })
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'expanded',
       precision: 8
     }))
-    .pipe(concat(paths().bundle.name+".css"))
+    .pipe(concat(paths().bundle.name + ".css"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.css)))
-    .pipe(browserSync.stream({match: '**/*.css'}));
+    .pipe(browserSync.stream({
+      match: '**/*.css'
+    }));
 })
 
-gulp.task('pl-compile:stylus', function(){
-  return gulp.src('*.styl',{cwd: path.resolve(paths().source.css)})
+gulp.task('pl-compile:stylus', function() {
+  return gulp.src('*.styl', {
+      cwd: path.resolve(paths().source.css)
+    })
     .pipe(sourcemaps.init())
     .pipe(stylus())
-    .pipe(concat(paths().bundle.name+".css"))
+    .pipe(concat(paths().bundle.name + ".css"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(path.resolve(paths().public.css)))
-    .pipe(browserSync.stream({match: '**/*.css'}));
+    .pipe(browserSync.stream({
+      match: '**/*.css'
+    }));
 })
 
 /******************************************************
  * VALIDATE TASKS - Validate preprocessors
-******************************************************/
+ ******************************************************/
 // Validate Sass
 gulp.task('pl-validate:sass', function() {
-  return gulp.src('**/*.scss',{cwd: path.resolve(paths().source.css)} )
-  .pipe(sassLint())
-  .pipe(sassLint.format());
+  return gulp.src('**/*.scss', {
+      cwd: path.resolve(paths().source.css)
+    })
+    .pipe(sassLint())
+    .pipe(sassLint.format());
 })
 
 // Validate CSS
 gulp.task('pl-validate:css', function() {
-  return gulp.src('**/*.css',{cwd: path.resolve(paths().source.css)} )
-  .pipe(cssLint())
-  .pipe(cssLint.format());
+  return gulp.src('**/*.css', {
+      cwd: path.resolve(paths().source.css)
+    })
+    .pipe(cssLint())
+    .pipe(cssLint.format());
 })
 
 // Validate Stylus
 gulp.task('pl-validate:stylus', function() {
-  return gulp.src('**/*.styl',{cwd: path.resolve(paths().source.css)} )
-  .pipe(stylint())
-  .pipe(stylint.reporter());
+  return gulp.src('**/*.styl', {
+      cwd: path.resolve(paths().source.css)
+    })
+    .pipe(stylint())
+    .pipe(stylint.reporter());
 })
 
 /******************************************************
  * CLEAN TASKS - Clean assets
-******************************************************/
+ ******************************************************/
 // Clean
-gulp.task('pl-clean:bundle', function(){
+gulp.task('pl-clean:bundle', function() {
   return del([path.resolve(paths().bundle.root) + '**/*']);
 });
 
-gulp.task('pl-clean:public', function(){
+gulp.task('pl-clean:public', function() {
   return del([path.resolve(paths().public.root) + '**/*']);
 });
 
 /**************************************************************
  * BUNDLE TASKS - stream assets from public to bundle directory
-***************************************************************/
+ ***************************************************************/
 // JS copy
-gulp.task('pl-bundle:js', function(){
-  gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
+gulp.task('pl-bundle:js', function() {
+  gulp.src('**/*.js', {
+      cwd: path.resolve(paths().public.js)
+    })
     .pipe(gulp.dest(path.resolve(paths().bundle.js)))
-    .pipe(concat(paths().bundle.name+".js"))
+    .pipe(concat(paths().bundle.name + ".js"))
     .pipe(gulp.dest(path.resolve(paths().bundle.js)));
 
-  return gulp.src('**/*.js', {cwd: path.resolve(paths().public.js)} )
+  return gulp.src('**/*.js', {
+      cwd: path.resolve(paths().public.js)
+    })
     .pipe(uglify())
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename({
+      suffix: '.min'
+    }))
     .pipe(gulp.dest(path.resolve(paths().bundle.js)))
     .pipe(concat(paths().bundle.name + '.min.js'))
     .pipe(gulp.dest(path.resolve(paths().bundle.js)));
 });
 
 // Images copy
-gulp.task('pl-bundle:img', function(){
-  return gulp.src('**/*.{ico,png,gif,jpg,jpeg,svg,tif,bmp,ico}', {cwd: path.resolve(paths().public.images)} )
+gulp.task('pl-bundle:img', function() {
+  return gulp.src('**/*.{ico,png,gif,jpg,jpeg,svg,tif,bmp,ico}', {
+      cwd: path.resolve(paths().public.images)
+    })
     .pipe(gulp.dest(path.resolve(paths().bundle.images)));
 });
 
 // Favicon copy
-gulp.task('pl-bundle:favicon', function(){
-  return gulp.src('*.{ico,png,gif,jpg,jpeg,svg}', {cwd: path.resolve(paths().public.root)} )
+gulp.task('pl-bundle:favicon', function() {
+  return gulp.src('*.{ico,png,gif,jpg,jpeg,svg}', {
+      cwd: path.resolve(paths().public.root)
+    })
     .pipe(gulp.dest(path.resolve(paths().bundle.root)));
 });
 
 // Fonts copy
-gulp.task('pl-bundle:font', function(){
-  return gulp.src('**/*.{svg,eot,ttf,woff,otf,woff2}', {cwd: path.resolve(paths().public.fonts)})
+gulp.task('pl-bundle:font', function() {
+  return gulp.src('**/*.{svg,eot,ttf,woff,otf,woff2}', {
+      cwd: path.resolve(paths().public.fonts)
+    })
     .pipe(gulp.dest(path.resolve(paths().bundle.fonts)));
 });
 
 // CSS Copy
-gulp.task('pl-bundle:css', function(){
+gulp.task('pl-bundle:css', function() {
   gulp.src(path.resolve(paths().public.css, '*.css'))
     .pipe(gulp.dest(path.resolve(paths().bundle.css)))
     .pipe(concat(paths().bundle.name + '.css'))
@@ -221,24 +270,28 @@ gulp.task('pl-bundle:css', function(){
 
   return gulp.src(path.resolve(paths().public.css, '*.css'))
     .pipe(cleanCSS())
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename({
+      suffix: '.min'
+    }))
     .pipe(gulp.dest(path.resolve(paths().bundle.css)))
     .pipe(concat(paths().bundle.name + '.min.css'))
     .pipe(gulp.dest(path.resolve(paths().bundle.css)));
 });
 
 // Components bundle
-gulp.task('pl-bundle:components', function(){
-    return gulp.src('**/*.*', {cwd: path.resolve(paths().public.components)})
-        .pipe(gulp.dest(path.resolve(paths().bundle.components)));
+gulp.task('pl-bundle:components', function() {
+  return gulp.src('**/*.*', {
+      cwd: path.resolve(paths().public.components)
+    })
+    .pipe(gulp.dest(path.resolve(paths().bundle.components)));
 });
 
 /******************************************************
  * PATTERN LAB CONFIGURATION - API with core library
-******************************************************/
+ ******************************************************/
 //read all paths from our namespaced config file
 var config = JSON.parse(fs.readFileSync('./patternlab-config.json')),
-  npmConfig = JSON.parse(fs.readFileSync('./package.json')),
+  packageConfig = JSON.parse(fs.readFileSync('./package.json')),
   patternlab = require('patternlab-node')(config);
 
 function paths() {
@@ -257,18 +310,16 @@ gulp.task('pl-stylesheets', gulp.series(
   'pl-copy:css',
   'pl-compile:sass',
   'pl-compile:stylus',
-  function(done){
+  function(done) {
     done();
-  })
-);
+  }));
 
 gulp.task('pl-scripts', gulp.series(
   'pl-copy:js',
   'pl-compile:coffee',
-  function(done){
+  function(done) {
     done();
-  })
-);
+  }));
 
 gulp.task('pl-assets', gulp.series(
   gulp.parallel(
@@ -283,10 +334,9 @@ gulp.task('pl-assets', gulp.series(
     'pl-copy:styleguide',
     'pl-copy:styleguide-css'
   ),
-  function(done){
+  function(done) {
     done();
-  })
-);
+  }));
 
 gulp.task('pl-bundle', gulp.series(
   gulp.parallel(
@@ -297,68 +347,67 @@ gulp.task('pl-bundle', gulp.series(
     'pl-bundle:css',
     'pl-bundle:components'
   ),
-  function(done){
+  function(done) {
     done();
-  })
-);
+  }));
 
 gulp.task('pl-clean', gulp.series(
   gulp.parallel(
     'pl-clean:public',
     'pl-clean:bundle'
   ),
-  function(done){
+  function(done) {
     done();
-  })
-);
+  }));
 
-gulp.task('patternlab:version', function (done) {
+gulp.task('patternlab:version', function(done) {
   patternlab.version();
   done();
 });
 
-gulp.task('patternlab:help', function (done) {
+gulp.task('patternlab:help', function(done) {
   patternlab.help();
   done();
 });
 
-gulp.task('patternlab:patternsonly', function (done) {
+gulp.task('patternlab:patternsonly', function(done) {
   patternlab.patternsonly(done, getConfiguredCleanOption());
 });
 
-gulp.task('patternlab:liststarterkits', function (done) {
+gulp.task('patternlab:liststarterkits', function(done) {
   patternlab.liststarterkits();
   done();
 });
 
-gulp.task('patternlab:loadstarterkit', function (done) {
+gulp.task('patternlab:loadstarterkit', function(done) {
   patternlab.loadstarterkit(argv.kit, argv.clean);
   done();
 });
 
-gulp.task('patternlab:build', gulp.series('pl-assets', build, function(done){
+gulp.task('patternlab:build', gulp.series('pl-assets', build, function(done) {
   done();
 }));
 
 /******************************************************
  * TESTS TASKS
-******************************************************/
+ ******************************************************/
 //unit test
-gulp.task('pl-nodeunit', function(){
+gulp.task('pl-nodeunit', function() {
   return gulp.src('./test/**/*_tests.js')
     .pipe(nodeunit());
 })
 
 /******************************************************
  * SERVER AND WATCH TASKS
-******************************************************/
+ ******************************************************/
 // watch task utility functions
 function getSupportedTemplateExtensions() {
   var engines = require('./node_modules/patternlab-node/core/lib/pattern_engines');
   return engines.getSupportedFileExtensions();
 }
+
 function getTemplateWatches() {
-  return getSupportedTemplateExtensions().map(function (dotExtension) {
+  return getSupportedTemplateExtensions().map(function(dotExtension) {
     return path.resolve(paths().source.patterns, '**/*' + dotExtension);
   });
 }
@@ -372,13 +421,27 @@ function reloadCSS() {
 }
 
 function watch() {
-  gulp.watch(path.resolve(paths().source.css, '**/*.styl'), { awaitWriteFinish: false }).on('change', gulp.series('pl-compile:stylus'));
-  gulp.watch(path.resolve(paths().source.css, '**/*.css'), { awaitWriteFinish: false }).on('change', gulp.series('pl-copy:css'));
-  gulp.watch(path.resolve(paths().source.css, '**/*.scss'), { awaitWriteFinish: false }).on('change', gulp.series('pl-compile:sass'));
-  gulp.watch(path.resolve(paths().source.js, '**/*.js'), { awaitWriteFinish: false }).on('change', gulp.series('pl-copy:js'));
-  gulp.watch(path.resolve(paths().source.js, '**/*.coffee'), { awaitWriteFinish: false }).on('change', gulp.series('pl-compile:coffee'));
-  gulp.watch(path.resolve(paths().source.ajax, '**/*'), { awaitWriteFinish: false }).on('change', gulp.series('pl-copy:ajax'));
-  gulp.watch(path.resolve(paths().source.styleguide, '**/*.*'), { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reloadCSS));
+  gulp.watch(path.resolve(paths().source.css, '**/*.styl'), {
+    awaitWriteFinish: false
+  }).on('change', gulp.series('pl-compile:stylus'));
+  gulp.watch(path.resolve(paths().source.css, '**/*.css'), {
+    awaitWriteFinish: false
+  }).on('change', gulp.series('pl-copy:css'));
+  gulp.watch(path.resolve(paths().source.css, '**/*.scss'), {
+    awaitWriteFinish: false
+  }).on('change', gulp.series('pl-compile:sass'));
+  gulp.watch(path.resolve(paths().source.js, '**/*.js'), {
+    awaitWriteFinish: false
+  }).on('change', gulp.series('pl-copy:js'));
+  gulp.watch(path.resolve(paths().source.js, '**/*.coffee'), {
+    awaitWriteFinish: false
+  }).on('change', gulp.series('pl-compile:coffee'));
+  gulp.watch(path.resolve(paths().source.ajax, '**/*'), {
+    awaitWriteFinish: false
+  }).on('change', gulp.series('pl-copy:ajax'));
+  gulp.watch(path.resolve(paths().source.styleguide, '**/*.*'), {
+    awaitWriteFinish: true
+  }).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reloadCSS));
 
   var patternWatches = [
     path.resolve(paths().source.patterns, '**/*.{json,mustache,md}'),
@@ -389,7 +452,9 @@ function watch() {
     path.resolve(paths().source.annotations + '/*')
   ].concat(getTemplateWatches());
 
-  gulp.watch(patternWatches, { awaitWriteFinish: false }).on('change', gulp.series(build, reload));
+  gulp.watch(patternWatches, {
+    awaitWriteFinish: false
+  }).on('change', gulp.series(build, reload));
 }
 
 gulp.task('patternlab:connect', gulp.series(function(done) {
@@ -419,7 +484,7 @@ gulp.task('patternlab:connect', gulp.series(function(done) {
         'text-align: center'
       ]
     }
-  }, function(){
+  }, function() {
     console.log('PATTERN LAB NODE WATCHING FOR CHANGES');
     done();
   });
@@ -427,7 +492,7 @@ gulp.task('patternlab:connect', gulp.series(function(done) {
 
 /******************************************************
  * COMPOUND TASKS
-******************************************************/
+ ******************************************************/
 gulp.task('default', gulp.series('patternlab:build'));
 gulp.task('patternlab:watch', gulp.series('patternlab:build', watch));
 gulp.task('patternlab:serve', gulp.series('patternlab:build', 'patternlab:connect', watch));
@@ -440,11 +505,11 @@ gulp.task('bundle', gulp.series('patternlab:clean', 'patternlab:build', 'pattern
 
 /******************************************************
  * UTILITY TASKS
-******************************************************/
+ ******************************************************/
 
 gulp.task('git:push', shell.task([
   'git add -A .',
-  'git commit -am "'+argv.m+'"',
+  'git commit -am "' + argv.m + '"',
   'git pull',
   'git push'
 ]))

@@ -25,7 +25,7 @@ Start working
 
 See Pattern Lab docs: http://patternlab.io/docs/index.html
 
-Running the server
+### Running the server
 
 ```bash
 npm start
@@ -34,14 +34,14 @@ npm start
 Generating and distributing package
 -----------------------------------
 
-To generate the distribution package:
+### To generate the distribution package:
 
 ```bash
 npm run bundle
 ```
 This will generate the necessary files in the `dist` directory.
 
-Pushing your changes:
+### Pushing your changes:
 
 ```bash
 npm run push "Commit message"
@@ -49,12 +49,21 @@ npm run push "Commit message"
 This will push all your changes to the repo.
 
 
-Bump version:
+### Bump version:
 
 ```bash
 npm version <patch|minor|major>
 ```
 This will checkout to master, bump version in `package.json`, create and push the tags.
+
+### Installing a new package:
+
+```bash
+npm install <package_name>@<tag|version>
+```
+
+You can also modify the `package.json` file to add the new package.
+
 
 Using in the site
 -----------------
@@ -75,6 +84,7 @@ Create the file in the public directory of the Bundle:
   "version": "1.0.0",
   "description": "App Frontend",
   "main": "README.md",
+  "homepage": "https://github.com/Aplyca/patternlab-standard",
   "repository": {
     "type": "git",
     "url": "git@github.com:Aplyca/patternlab-standard.git"
@@ -98,6 +108,10 @@ Then install/update with the command:
 npm i --production
 ```
 
-### Installing the frontend package
+### How to create a new fronted project
+
+```bash
+npm run installkit
+```
 
 See the instructions of the starter kit in source/README.md
