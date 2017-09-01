@@ -498,12 +498,14 @@ gulp.task('default', gulp.series('pl-build'));
 gulp.task('patternlab:watch', gulp.series('pl-build', watch));
 gulp.task('patternlab:clean', gulp.series('pl-clean'));
 gulp.task('patternlab:build', gulp.series('patternlab:clean', 'pl-build'));
-gulp.task('patternlab:bundle', gulp.series('patternlab:build', 'pl-bundle'));
 gulp.task('patternlab:serve', gulp.series('patternlab:build', 'patternlab:connect', watch));
+gulp.task('patternlab:bundle', gulp.series('patternlab:build', 'pl-bundle'));
+gulp.task('serve', gulp.series('patternlab:serve'));
 gulp.task('clean', gulp.series('patternlab:clean'));
 gulp.task('build', gulp.series('patternlab:build'));
 gulp.task('bundle', gulp.series('patternlab:bundle'));
-gulp.task('serve', gulp.series('patternlab:serve'));
+
+
 /******************************************************
  * UTILITY TASKS
  ******************************************************/
