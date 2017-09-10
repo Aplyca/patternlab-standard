@@ -19,6 +19,7 @@
     "browser-sync": "^2",
     "del": "^2",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-babel": "^7.0.0",
     "gulp-clean-css": "*",
     "gulp-coffee": "*",
     "gulp-concat": "*",
@@ -52,7 +53,7 @@
     "build": "npx gulp build"
   },
   "engines": {
-    "node": "~8.2",
+    "node": "~8",
     "npm": "~5.3"
   }
 }
