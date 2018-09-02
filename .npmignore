@@ -3,9 +3,7 @@ tests
 .sass-lint.yml
 .editorconfig
 .stylintrc
-.bowerrc
-bower.json
-source/
+src/
 gulpfile.js
 patternlab-config.json
 yarn.lock

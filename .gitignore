@@ -1,14 +1,12 @@
-# Ignoring
-node_modules/
+# Ignore everithing
+/*
+
+# Ingoned unnecessary files
+*.gz
+*.tgz
 .DS_Store
-patternlab.json
-.sass-cache/*
-/sass-cache
-Thumbs.db
-.idea/
-public/
-vendor/
-/npm-debug.log
-_arts
-*.zip
-yarn-error.log
+*~
+
+# Track source files
+!/src
+!/etc

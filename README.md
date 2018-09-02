@@ -1,117 +1,80 @@
 Pattern Lab Standard Edition
 ============================
 
-Requirements
-------------
+## Prerequesites
 
-* NodeJS: https://nodejs.org/en/download/package-manager/ (`brew install node`)
+-   GNU Make
 
+## Override configurations and settings
 
-Installation
-------------
+Create the file `.env` with the environment variables, use the `.env.dist` file for reference. Reload your environment (`make reload`) in order to make this variables take effect
 
-```bash
-npm i
-```
-
-Updating the app:
+## Install requirements:
 
 ```bash
-npm up
+make requirements
 ```
 
-Start working
--------------
+## Installation
 
-See Pattern Lab docs: http://patternlab.io/docs/index.html
+```bash
+make
+```
+
+## Start working
+
+See Pattern Lab docs: <http://patternlab.io/docs/index.html>
+
+### Pushing the changes to the repo
+
+- This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) for releasing new versions
+- This projects adheres to [Conventional Commits](https://conventionalcommits.org) for commit guidelines
+- This project uses [Semantic Realease](https://semantic-release.gitbook.io/semantic-release) to automatically release a new version depending on commits messages
+- This project uses [Semantic Release Changelog](https://github.com/semantic-release/changelog) to automatically generate CHANGELOG.md file
+
+Execute the following command to push your changes
+
+```bash
+make push
+```
+
+The command above will pormnt some questions to help you create a good commit message in compliance to the semantic release.
+
+This project uses semantic release to deploy to **CloudFront CDN** depending on the commit messages in the `master` branch.
 
 ### Running the server
 
 ```bash
-npm start
+make start
 ```
 
-Generating and distributing package
------------------------------------
-
-### To generate the distribution package:
+### Execute tests
 
 ```bash
-npm run bundle
+make test
 ```
-This will generate the necessary files in the `dist` directory.
 
-### Pushing your changes:
+### Open your environment in the browser
 
 ```bash
-npm run push "Commit message"
+make open
 ```
-This will push all your changes to the repo.
 
-
-### Bump version:
+### See all commands available
 
 ```bash
-npm version <patch|minor|major>
+make help
 ```
-This will checkout to master, bump version in `package.json`, create and push the tags.
 
-### Installing a new package:
+## Deploy preview to S3
 
 ```bash
-npm install <package_name>@<tag|version>
+make preview
 ```
 
-You can also modify the `package.json` file to add the new package.
-
-
-Using in the site
------------------
-
-### Download files directly
+## Release to CDN
 
 ```bash
-npm install git@github.com:Aplyca/patternlab-standard.git#master --save
+make publish
 ```
 
-### Using package.json
-
-Create the file in the public directory of the Bundle:
-
-```json
-{
-  "name": "app",
-  "version": "1.0.0",
-  "description": "App Frontend",
-  "main": "README.md",
-  "homepage": "https://github.com/Aplyca/patternlab-standard",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:Aplyca/patternlab-standard.git"
-  },
-  "author": "Aplyca",
-  "license": "ISC",
-  "private": true,  
-  "dependencies": {
-    "patternlab-standard-frontend": "git+ssh://git@github.com:Aplyca/patternlab-standard.git#master"
-  },
-  "engines": {
-    "node": "~8.2",
-    "npm": "~5.3"
-  }
-}
-```
-
-Then install/update with the command:
-
-```bash
-npm i --production
-```
-
-### How to create a new fronted project
-
-```bash
-npm run installkit
-```
-
-See the instructions of the starter kit in source/README.md

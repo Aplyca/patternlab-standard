@@ -1,0 +1,19 @@
+# Ignore everything
+**
+
+# Allow app files
+!/.babelrc
+!/.eslintrc
+!/.sass-lint.yml
+!/.stylintrc
+!/gulpfile.js
+!/package.json
+!/package-lock.json
+!/patternlab-config.json
+!/src/**
+
+# Ignore unnecessary files
+**/*~
+**/*.log
+**/.DS_Store
+**/Thumbs.db

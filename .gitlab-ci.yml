@@ -1,0 +1,131 @@
+image: node:10.9.0-slim
+
+stages:
+  - build
+  - test
+  - deploy
+  - publish
+
+variables:
+  APP_NAME: "patternlab-standard"
+  REVIEW_BUCKET: "patternlab-standard-static-review"
+  PROD_BUCKET: "patternlab-standard-static-prod"
+  START_URL: "public/index.html?p=templates-homepage"
+  GITLAB_PAGES_URL: "https://patternlab.gitlab.io/PatternLabStandard"
+  PROD_URL: "https://static.example.com"
+
+bundle:
+  stage: build
+  script:
+    - npm ci
+    - npm run bundle
+  cache:
+    paths:
+      - public
+      - dist
+      - node_modules
+
+testing:
+  stage: test
+  script:
+    - npm run test
+  cache:
+    paths:
+      - node_modules
+    policy: pull
+  only:
+    - branches
+
+deploy_review_s3:
+  image: "garland/aws-cli-docker"
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+    AWS_ACCESS_KEY_ID: $REVIEW_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $REVIEW_AWS_SECRET_ACCESS_KEY
+  cache:
+    paths:
+      - public
+      - dist
+    policy: pull
+  script:
+    - aws s3 sync dist/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist/ --cache-control "no-cache" --only-show-errors
+    - aws s3 sync public/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "no-cache" --only-show-errors
+  environment:
+    name: Review/$CI_COMMIT_REF_NAME
+    url: https://s3.amazonaws.com/$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/$START_URL
+    on_stop: stop_review_s3
+  only:
+    - branches
+
+stop_review_s3:
+  image: "garland/aws-cli-docker"
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+    AWS_ACCESS_KEY_ID: $REVIEW_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $REVIEW_AWS_SECRET_ACCESS_KEY
+  script:
+    - aws s3 rm s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist --recursive
+    - aws s3 rm s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public --recursive
+  when: manual
+  environment:
+    name: Review/$CI_COMMIT_REF_NAME
+    action: stop
+  only:
+    - branches
+  except:
+    - master
+    - tags
+
+pages:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  cache:
+    paths:
+      - public
+      - dist
+    policy: pull
+  script:
+    - mv public patternlab
+    - mkdir public
+    - mv patternlab public/public
+    - mv dist public/
+  artifacts:
+    paths:
+      - public
+  environment:
+    name: GiLab Pages master
+    url: $GITLAB_PAGES_URL/$START_URL
+  only:
+    - master
+
+release:
+  image: "aplyca/semantic-release"
+  stage: deploy
+  script:
+    - semantic-release
+  only:
+    - master
+
+publish_s3:
+  image: "garland/aws-cli-docker"
+  stage: publish
+  variables:
+    GIT_STRATEGY: none
+    AWS_ACCESS_KEY_ID: $PROD_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $PROD_AWS_SECRET_ACCESS_KEY
+  cache:
+    paths:
+      - public
+      - dist
+    policy: pull
+  script:
+    - aws s3 sync dist/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist/ --cache-control "max-age=31557600" --only-show-errors
+    - aws s3 sync public/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "max-age=31557600" --only-show-errors
+  environment:
+    name: Release/$CI_COMMIT_REF_NAME
+    url: $PROD_URL/$APP_NAME/$CI_COMMIT_REF_NAME/$START_URL
+  only:
+    - tags

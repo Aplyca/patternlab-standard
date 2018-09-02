@@ -1,53 +1,53 @@
 {
-  "paths" : {
-    "source" : {
-      "root": "./source/",
-      "patterns" : "./source/_patterns/",
-      "data" : "./source/_data/",
-      "meta": "./source/_meta/",
-      "annotations" : "./source/_annotations/",
-      "ajax" : "./source/_ajax/",
-      "js" : "./source/js",
-      "images" : "./source/images",
-      "fonts" : "./source/fonts",
-      "css" : "./source/css/",
-      "components" : "./source/components/",
-      "modules" : "./node_modules/",
-      "styleguide" : "./node_modules/styleguidekit-assets-default/dist/",
-      "patternlabFiles" : "./node_modules/styleguidekit-mustache-default/views/"
+  "paths": {
+    "source": {
+      "root": "./src/",
+      "patterns": "./src/patterns/",
+      "data": "./src/data/",
+      "meta": "./src/meta/",
+      "annotations": "./src/annotations/",
+      "ajax": "./src/ajax/",
+      "js": "./src/js",
+      "images": "./src/images",
+      "fonts": "./src/fonts",
+      "css": "./src/css/",
+      "components": "./src/components/",
+      "styleguide": "./node_modules/styleguidekit-assets-default/dist/",
+      "patternlabFiles": "./node_modules/styleguidekit-mustache-default/views/"
     },
-    "public" : {
-      "root" : "./public/",
-      "patterns" : "./public/patterns/",
-      "data" : "./public/styleguide/data/",
-      "annotations" : "./public/annotations/",
-      "ajax" : "./public/ajax/",
-      "modules" : "./public/node_modules/",
-      "styleguide" : "./public/styleguide/",
-      "js" : "./public/js",
-      "images" : "./public/images",
-      "fonts" : "./public/fonts",
-      "css" : "./public/css",
-      "components" : "./public/components"
+    "public": {
+      "root": "./public/",
+      "patterns": "./public/patterns/",
+      "data": "./public/styleguide/data/",
+      "annotations": "./public/annotations/",
+      "ajax": "./public/ajax/",
+      "modules": "./public/node_modules/",
+      "styleguide": "./public/styleguide/",
+      "js": "./public/js",
+      "images": "./public/images",
+      "fonts": "./public/fonts",
+      "css": "./public/css",
+      "components": "./public/components"
     },
-    "bundle" : {
-      "root" : "./dist/",
-      "js" : "./dist/js",
-      "images" : "./dist/images",
-      "fonts" : "./dist/fonts",
-      "css" : "./dist/css",
-      "components" : "./dist/components/",
-      "name" : "bundle"
+    "bundle": {
+      "root": "./dist/",
+      "js": "./dist/js",
+      "images": "./dist/images",
+      "fonts": "./dist/fonts",
+      "css": "./dist/css",
+      "components": "./dist/components/",
+      "name": "bundle"
     }
   },
-  "styleGuideExcludes": [
-  ],
+  "styleGuideExcludes": [],
+  "port": "3000",
+  "base_dir": ".",
   "defaultPattern": "all",
   "defaultShowPatternInfo": false,
-  "cleanPublic" : true,
+  "cleanPublic": true,
   "patternExtension": "mustache",
-  "ignored-extensions" : ["scss", "DS_Store", "less"],
-  "ignored-directories" : ["scss"],
+  "ignored-extensions": ["scss", "DS_Store", "less"],
+  "ignored-directories": ["scss"],
   "debug": false,
   "ishControlsHide": {
     "s": false,
@@ -66,11 +66,10 @@
     "tools-all": false,
     "tools-docs": false
   },
-  "ishMinimum": "240",
+  "ishMinimum": "320",
   "ishMaximum": "2600",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
-  "patternStates": {
-  },
+  "patternStates": {},
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
   "cacheBust": true,
