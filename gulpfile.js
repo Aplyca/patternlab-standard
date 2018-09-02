@@ -430,7 +430,6 @@ function watch() {
     path.resolve(paths().source.meta, '*'),
     path.resolve(paths().source.annotations + '/*'),
   ].concat(getTemplateWatches());
-  console.log(patternWatches);
 
   gulp.watch(patternWatches).on('change', gulp.series(build, reload));
 }
