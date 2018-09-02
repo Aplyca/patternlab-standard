@@ -69,11 +69,15 @@ open: ## Open web app in the browser
 expose: ## 🌐  Expose your local environment to the internet, thanks to Serveo (https://serveo.net)
 	ssh -R 80:localhost:$(subst 0.0.0.0:,,$(shell docker-compose port app 3000)) serveo.net
 
-sync: sync.generated ## Copy files generated inside container to host
-	make exec command="cp package.json package-lock.json /tmp/app/."
+sync: ## Copy files generated inside container to host
+	docker cp $(shell docker-compose ps -q app):/app/package.json .
+	docker cp $(shell docker-compose ps -q app):/app/package-lock.json .
 
 sync.generated: ## Copy files generated inside container to host
-	make exec command="rm -rf /tmp/app/dist /tmp/app/public && cp -r public dist /tmp/app/."
+	docker cp $(shell docker-compose ps -q app):/app/public .
+	docker cp $(shell docker-compose ps -q app):/app/dist .
+
+sync.all: sync sync.generated ## Copy files generated inside container to host
 
 release:
 	git checkout master
@@ -86,10 +90,11 @@ deploy: version ?= $(shell git describe --always --abbrev=0 --tags)
 deploy: cache ?= max-age=31557600
 deploy: endpoint ?= https://static.example.com
 deploy: bundle sync.generated ## 🚀  Deploy code to S3
+	$(info 🚀  Uploading current files to s3://$(bucket)/$(app_name)/$(version)) 
 	@docker run --rm -it -v $(CURDIR):/app --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -w /app garland/aws-cli-docker ash -c "aws s3 sync dist/ s3://$(bucket)/$(app_name)/$(version)/dist/ --cache-control "$(cache)" --only-show-errors && aws s3 sync public/ s3://$(bucket)/$(app_name)/$(version)/public/ --cache-control "$(cache)" --only-show-errors"
 	$(open) $(endpoint)/$(app_name)/$(version)/public/index.html
 
-preview: bucket ?= patternlab-standard-static-review
-preview: version  ?= $(shell git rev-parse --abbrev-ref HEAD)
-preview: test ## Preview current branch in S3
+review: bucket ?= patternlab-standard-static-review
+review: version  ?= $(shell git rev-parse --abbrev-ref HEAD)
+review: test ## Preview current branch in S3
 	make deploy bucket=$(bucket) version=$(version) cache=no-cache endpoint=https://$(bucket).s3.us-east-1.amazonaws.com

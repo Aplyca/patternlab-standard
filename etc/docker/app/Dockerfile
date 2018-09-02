@@ -8,4 +8,3 @@ RUN if [ -f package-lock.json ]; then npm ci; else npm i; fi
 
 COPY .babelrc .eslintrc .sass-lint.yml .stylintrc gulpfile.js patternlab-config.json ./
 COPY src ./src
-RUN npm run bundle
