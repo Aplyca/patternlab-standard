@@ -5,7 +5,6 @@ jobs:
       - image: node:10.9.0-alpine
     working_directory: ~/repo
     steps:
-      - checkout
       - run: npm ci
       - run: npm run installkit
       - run: npm run bundle
