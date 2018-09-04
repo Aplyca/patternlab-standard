@@ -1,10 +1,11 @@
 verifyConditions:
-  - "@semantic-release/changelog"
-  - "@semantic-release/git"
+  #- "@semantic-release/changelog"
+  #- "@semantic-release/git"
   - "@semantic-release/gitlab"
-prepare: false
-  - "@semantic-release/changelog"
-  - "@semantic-release/git"
+prepare:
+  false
+  #- "@semantic-release/changelog"
+  #- "@semantic-release/git"
 publish:
   - "@semantic-release/gitlab"
 success: false
