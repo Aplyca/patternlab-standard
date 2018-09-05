@@ -12,9 +12,9 @@ endif
 
 ifeq ($(os), Darwin)
 open = open
-else ifeq ($(os), Linux))
+else ifeq ($(os), Linux)
 open = xdg-open
-else ifeq ($(os), Windows_NT))
+else ifeq ($(os), Windows_NT)
 open = explorer
 endif
 
