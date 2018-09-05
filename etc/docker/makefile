@@ -1,21 +1,22 @@
-requirements: UNAME := $(shell uname)
 requirements: ## Installing local requirements
-ifeq ($(UNAME), Darwin)
+ifeq ($(os), Darwin)
 	grep -q 'brew' <<< echo `command -v brew` || /usr/bin/ruby -e "`curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`"
 	brew install make git
 	brew cask install docker
 	open -a Docker
-else ifeq ($(UNAME), Linux)
-	sh -c "$(curl -fsSL https://get.docker.com)"
-	sudo usermod -aG docker ${USER}
-	su - ${USER}
-	sudo apt-get install make git docker-ce
+else ifeq ($(os), Linux)
+	sudo sh -c "$$(curl -fsSL https://get.docker.com)"
+	sudo apt-get install make git
+	sudo usermod -aG docker $${USER}
 	sudo service docker start
-else ifeq ($(UNAME), Windows_NT)
+	sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(os)-$(shell uname -m) -o /usr/local/bin/docker-compose
+	sudo chmod +x /usr/local/bin/docker-compose
+	su - $${USER}
+else ifeq ($(os), Windows_NT)
 	@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 	choco install make git docker-for-windows -y
 else
-	# Platform not supported
+	$(warning Platform "$(platform)" not supported)
 endif
 
 build: ## 📦  Build the ap in Docker containers
@@ -78,6 +79,9 @@ sync.generated: ## Copy files generated inside container to host
 	docker cp $(shell docker-compose ps -q app):/app/dist .
 
 sync.all: sync sync.generated ## Copy files generated inside container to host
+
+copy: ## Copy app files/directories from container to host
+	docker cp $(shell docker-compose ps -q app):/app/$(path) .
 
 release:
 	git checkout master

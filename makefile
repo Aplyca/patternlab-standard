@@ -1,4 +1,6 @@
 # Load custom setitngs
+os ?= $(shell uname -s)
+
 -include .env
 export
 PROVISION ?= docker
@@ -8,12 +10,12 @@ ifdef command
 override command := -c "$(command)"
 endif
 
-ifeq ($(shell uname), Darwin)
+ifeq ($(os), Darwin)
 open = open
-else ifeq ($(shell uname), Linux))
+else ifeq ($(os), Linux))
 open = xdg-open
-else ifeq ($(shell uname), Windows_NT))
-open =  explorer
+else ifeq ($(os), Windows_NT))
+open = explorer
 endif
 
 install: build bundle test open
