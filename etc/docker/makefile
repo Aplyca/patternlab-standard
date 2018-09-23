@@ -16,11 +16,11 @@ else ifeq ($(os), Windows_NT)
 	@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 	choco install make git docker-for-windows -y
 else
-	$(warning Platform "$(platform)" not supported)
+	$(warning Platform "$(os)" not supported)
 endif
 
 build: ## 📦  Build the ap in Docker containers
-	docker-compose up --build -d
+	docker-compose up --build -d --remove-orphans $(container)
 
 up:
 	docker-compose up -d
@@ -46,11 +46,13 @@ ps: ## Status of the environment
 
 status: ps
 
-exec: ## Execute command in environment
-	docker-compose exec app ash $(command)
+cli exec: container ?= app
+cli exec: ## Execute commands in containers, use "command"  argument to send the command. By Default enter the shell.
+	docker-compose exec $(container) ash $(command)
 
-run: ## 👟  Run command in environment
-	docker-compose run --rm app ash $(command)
+run: container ?= app
+run: ## 👟  Run commands in a new container
+	docker-compose run --rm $(container) ash $(command)
 
 bundle:
 	make exec command="npm run bundle"
@@ -70,18 +72,18 @@ open: ## Open web app in the browser
 expose: ## 🌐  Expose your local environment to the internet, thanks to Serveo (https://serveo.net)
 	ssh -R 80:localhost:$(subst 0.0.0.0:,,$(shell docker-compose port app 3000)) serveo.net
 
-sync: ## Copy files generated inside container to host
-	docker cp $(shell docker-compose ps -q app):/app/package.json .
-	docker cp $(shell docker-compose ps -q app):/app/package-lock.json .
-
-sync.generated: ## Copy files generated inside container to host
-	docker cp $(shell docker-compose ps -q app):/app/public .
-	docker cp $(shell docker-compose ps -q app):/app/dist .
-
-sync.all: sync sync.generated ## Copy files generated inside container to host
-
 copy: ## Copy app files/directories from container to host
 	docker cp $(shell docker-compose ps -q app):/app/$(path) .
+
+sync: ## Copy files generated inside container to host
+	make copy path=package.json
+	make copy path=package-lock.json
+
+sync.generated: ## Copy files generated inside container to host
+	make copy path=public
+	make copy path=dist
+
+sync.all: sync sync.generated ## Copy files generated inside container to host
 
 release:
 	git checkout master

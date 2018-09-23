@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  app:
+    container_name: patternlab-standard-app
+    hostname: app
+    build:
+      context: .
+      dockerfile: etc/docker/app/Dockerfile
+    image: patternlab/standard/app
+    ports:
+      - "${APP_PORT:-3000}:3000"
+      - "${BROWSER_SYNC_PORT:-3001}:3001"
+    volumes:
+      - ./src:/app/src:cached
+    environment:
+      OPEN_BROWSER: "false"
+    working_dir: /app
+    command: npm start
+    networks:
+      - public
+    restart: always
+
+networks:
+  public:
+    name: patternlab-standard-public
