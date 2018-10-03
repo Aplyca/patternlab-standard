@@ -37,7 +37,10 @@ checkoutlatesttag:
 	git fetch --prune origin "+refs/tags/*:refs/tags/*"
 	git checkout $(shell git describe --always --abbrev=0 --tags)
 
-publish: test release checkoutlatesttag deploy ## 🎉  Publish new version to Prodcution
+checknewrelease:
+	git describe --tags --exact-match $(shell git rev-parse HEAD)
+
+publish: test release checknewrelease checkoutlatesttag deploy ## 🎉  Publish new version to Prodcution
 	git checkout master
 
 test:
