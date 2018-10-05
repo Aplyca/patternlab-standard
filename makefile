@@ -29,7 +29,7 @@ push: branch := $(shell git rev-parse --abbrev-ref HEAD)
 push: ## Review, add, commit and push changes using commitizen. Usage: make push
 	git diff
 	git add -A .
-	git cz -a
+	@docker run --rm -it -e CUSTOM=true -v $(CURDIR):/app -v $(HOME)/.gitconfig:/root/.gitconfig aplyca/commitizen
 	git pull origin $(branch)
 	git push -u origin $(branch)
 

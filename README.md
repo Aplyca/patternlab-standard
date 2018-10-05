@@ -1,9 +1,8 @@
-Pattern Lab Standard Edition
-============================
+# Pattern Lab Standard Edition
 
 ## Prerequesites
 
--   GNU Make
+- GNU Make
 
 ## Override configurations and settings
 
@@ -42,10 +41,16 @@ The command above will pormnt some questions to help you create a good commit me
 
 This project uses semantic release to deploy to **CloudFront CDN** depending on the commit messages in the `master` branch.
 
-### Running the server
+### Starting the environment
 
 ```bash
 make start
+```
+
+### Stopping the environment
+
+```bash
+make stop
 ```
 
 ### Execute tests
@@ -77,4 +82,3 @@ make preview
 ```bash
 make publish
 ```
-
