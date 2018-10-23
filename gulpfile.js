@@ -439,8 +439,7 @@ gulp.task(
         server: {
           baseDir: "public",
           routes: {
-            "/dist": "dist",
-            "/local/dist": "dist"
+            "/dist": "dist"
           }
         },
         cors: true,

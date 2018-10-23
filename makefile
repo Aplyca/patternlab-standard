@@ -44,7 +44,7 @@ publish: test release checknewrelease checkoutlatesttag deploy ## 🎉  Publish 
 	git checkout master
 
 test:
-	@echo "Not implemented yet"
+	$(info Tests not implemented yet)
 
 h help: ## ℹ️  This help.
 	@echo 'ℹ️  Usage: make <task> [option=value]' 
