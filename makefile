@@ -18,7 +18,7 @@ else ifeq ($(os), Windows_NT)
 open = explorer
 endif
 
-install: build bundle test open
+install: | build bundle test open
 
 squash: branch := $(shell git rev-parse --abbrev-ref HEAD)
 squash:
@@ -40,7 +40,7 @@ checkoutlatesttag:
 checknewrelease:
 	git describe --tags --exact-match $(shell git rev-parse HEAD)
 
-publish: test release checknewrelease checkoutlatesttag deploy ## 🎉  Publish new version to Prodcution
+publish: | test release checknewrelease checkoutlatesttag deploy ## 🎉  Publish new version to Prodcution
 	git checkout master
 
 test:
