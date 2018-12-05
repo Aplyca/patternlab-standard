@@ -10,3 +10,4 @@
 # Track source files
 !/src
 !/etc
+!/public

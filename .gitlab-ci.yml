@@ -1,4 +1,4 @@
-image: node:10.9.0-alpine
+image: node:11.1.0-alpine
 
 stages:
   - build
@@ -23,21 +23,23 @@ bundle:
     paths:
       - public
       - dist
+      - patternlab
       - node_modules
+    policy: push
 
-testing:
-  stage: test
-  script:
-    - npm run test
-  cache:
-    paths:
-      - node_modules
-    policy: pull
-  only:
-    - branches
+#testing:
+# stage: test
+#  script:
+#    - npm run test
+#  cache:
+#    paths:
+#      - node_modules
+#    policy: pull
+#  only:
+#    - branches
 
 deploy_review_s3:
-  image: "garland/aws-cli-docker"
+  image: "infrastructureascode/aws-cli"
   stage: deploy
   variables:
     GIT_STRATEGY: none
@@ -47,9 +49,11 @@ deploy_review_s3:
     paths:
       - public
       - dist
+      - patternlab
     policy: pull
   script:
     - aws s3 sync dist/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist/ --cache-control "no-cache" --only-show-errors
+    - aws s3 sync patternlab/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/patternlab/ --cache-control "no-cache" --only-show-errors
     - aws s3 sync public/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "no-cache" --only-show-errors
   environment:
     name: Review/$CI_COMMIT_REF_NAME
@@ -59,15 +63,15 @@ deploy_review_s3:
     - branches
 
 stop_review_s3:
-  image: "garland/aws-cli-docker"
+  image: "infrastructureascode/aws-cli"
   stage: deploy
+  cache: {}
   variables:
     GIT_STRATEGY: none
     AWS_ACCESS_KEY_ID: $REVIEW_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $REVIEW_AWS_SECRET_ACCESS_KEY
   script:
-    - aws s3 rm s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist --recursive
-    - aws s3 rm s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public --recursive
+    - aws s3 rm s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME --recursive
   when: manual
   environment:
     name: Review/$CI_COMMIT_REF_NAME
@@ -86,12 +90,13 @@ pages:
     paths:
       - public
       - dist
+      - patternlab
     policy: pull
   script:
-    - mv public patternlab
+    - mv public web
     - mkdir public
-    - mv patternlab public/public
-    - mv dist public/
+    - mv patternlab dist public/
+    - mv web public/public
   artifacts:
     paths:
       - public
@@ -104,13 +109,14 @@ pages:
 release:
   image: "aplyca/semantic-release"
   stage: deploy
+  cache: {}
   script:
     - semantic-release
   only:
     - master
 
 publish_s3:
-  image: "garland/aws-cli-docker"
+  image: "infrastructureascode/aws-cli"
   stage: publish
   variables:
     GIT_STRATEGY: none
@@ -120,10 +126,12 @@ publish_s3:
     paths:
       - public
       - dist
+      - patternlab
     policy: pull
   script:
     - aws s3 sync dist/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist/ --cache-control "max-age=31557600" --only-show-errors
-    - aws s3 sync public/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "max-age=31557600" --only-show-errors
+    - aws s3 sync patternlab/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/patternlab/ --cache-control "max-age=31557600" --only-show-errors
+    - aws s3 sync public/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "no-cache" --only-show-errors
   environment:
     name: Release/$CI_COMMIT_REF_NAME
     url: $PROD_URL/$APP_NAME/$CI_COMMIT_REF_NAME/$START_URL

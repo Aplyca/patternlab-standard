@@ -22,7 +22,7 @@ var gulp = require('gulp'),
   argv = require('minimist')(process.argv.slice(2)),
   fs = require('fs');
 /******************************************************
- * COPY TASKS - stream assets from source to public
+ * COPY TASKS - stream assets from source to patternlab
  ******************************************************/
 // CSS Copy
 gulp.task('pl-copy:css', function () {
@@ -197,7 +197,7 @@ gulp.task('pl-clean:build', function () {
   return del([path.resolve(paths().public.root) + '**/*']);
 });
 /**************************************************************
- * BUNDLE TASKS - stream assets from public to bundle directory
+ * BUNDLE TASKS - stream assets from patternlab to bundle directory
  ***************************************************************/
 // JS copy
 gulp.task('pl-bundle:js', function () {
@@ -286,7 +286,7 @@ function paths() {
 }
 
 function getConfiguredCleanOption() {
-  return config.cleanPublic;
+  return config.cleanPatternlab;
 }
 
 function build(done) {
@@ -437,9 +437,10 @@ gulp.task(
   gulp.series(function (done) {
     browserSync.init({
         server: {
-          baseDir: "public",
+          baseDir: "patternlab",
           routes: {
-            "/dist": "dist"
+            "/dist": "dist",
+            "/public": "public"
           }
         },
         cors: true,

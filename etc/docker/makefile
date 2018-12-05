@@ -97,7 +97,7 @@ deploy: cache ?= max-age=31557600
 deploy: endpoint ?= https://static.example.com
 deploy: bundle sync.generated ## 🚀  Deploy code to S3
 	$(info 🚀  Uploading current files to s3://$(bucket)/$(app_name)/$(version)) 
-	@docker run --rm -it -v $(CURDIR):/app --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -w /app infrastructureascode/aws-cli:1.16.23 ash -c "aws s3 sync dist/ s3://$(bucket)/$(app_name)/$(version)/dist/ --cache-control "$(cache)" --only-show-errors && aws s3 sync public/ s3://$(bucket)/$(app_name)/$(version)/public/ --cache-control "$(cache)" --only-show-errors"
+	@docker run --rm -it -v $(CURDIR):/app --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -w /app infrastructureascode/aws-cli ash -c "aws s3 sync dist/ s3://$(bucket)/$(app_name)/$(version)/dist/ --cache-control "$(cache)" --only-show-errors && aws s3 sync public/ s3://$(bucket)/$(app_name)/$(version)/public/ --cache-control "$(cache)" --only-show-errors"
 	$(open) $(endpoint)/$(app_name)/$(version)/public/index.html
 
 review: bucket ?= patternlab-standard-static-review

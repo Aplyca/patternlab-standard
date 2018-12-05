@@ -13,6 +13,7 @@ services:
       - "${BROWSER_SYNC_PORT:-3001}:3001"
     volumes:
       - ./src:/app/src:cached
+      - ./public:/app/public:cached
     environment:
       OPEN_BROWSER: "false"
     working_dir: /app

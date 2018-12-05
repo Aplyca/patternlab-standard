@@ -44,7 +44,7 @@
     "test": "echo \"Not implemented yet\""
   },
   "engines": {
-    "node": "~10",
+    "node": "~11",
     "npm": "~6"
   }
 }
