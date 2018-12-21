@@ -52,9 +52,9 @@ deploy_review_s3:
       - patternlab
     policy: pull
   script:
-    - aws s3 sync dist/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist/ --cache-control "no-cache" --only-show-errors
-    - aws s3 sync patternlab/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/patternlab/ --cache-control "no-cache" --only-show-errors
-    - aws s3 sync public/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "no-cache" --only-show-errors
+    - aws s3 sync --delete dist/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist/ --cache-control "no-cache" --only-show-errors
+    - aws s3 sync --delete patternlab/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/patternlab/ --cache-control "no-cache" --only-show-errors
+    - aws s3 sync --delete public/ s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "no-cache" --only-show-errors
   environment:
     name: Review/$CI_COMMIT_REF_NAME
     url: https://s3.amazonaws.com/$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/$START_URL
@@ -71,7 +71,7 @@ stop_review_s3:
     AWS_ACCESS_KEY_ID: $REVIEW_AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $REVIEW_AWS_SECRET_ACCESS_KEY
   script:
-    - aws s3 rm s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME --recursive
+    - aws s3 rm s3://$REVIEW_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME --recursive --only-show-errors
   when: manual
   environment:
     name: Review/$CI_COMMIT_REF_NAME
@@ -129,9 +129,9 @@ publish_s3:
       - patternlab
     policy: pull
   script:
-    - aws s3 sync dist/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist/ --cache-control "max-age=31557600" --only-show-errors
-    - aws s3 sync patternlab/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/patternlab/ --cache-control "max-age=31557600" --only-show-errors
-    - aws s3 sync public/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "no-cache" --only-show-errors
+    - aws s3 sync --delete dist/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/dist/ --cache-control "max-age=31557600" --only-show-errors
+    - aws s3 sync --delete patternlab/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/patternlab/ --cache-control "max-age=31557600" --only-show-errors
+    - aws s3 sync --delete public/ s3://$PROD_BUCKET/$APP_NAME/$CI_COMMIT_REF_NAME/public/ --cache-control "no-cache" --only-show-errors
   environment:
     name: Release/$CI_COMMIT_REF_NAME
     url: $PROD_URL/$APP_NAME/$CI_COMMIT_REF_NAME/$START_URL
