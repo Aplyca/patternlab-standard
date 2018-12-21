@@ -13,7 +13,7 @@ variables:
   PROD_URL: "https://static.example.com"
 
 bundle:
-  image: "node:11.1.0-alpine"
+  image: "node:alpine"
   stage: build
   script:
     - npm ci
