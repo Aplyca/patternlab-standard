@@ -87,7 +87,7 @@ sync.all: sync sync.generated ## Copy files generated inside container to host
 
 release:
 	git checkout master
-	docker run --rm -it -v $(CURDIR):/app -v ~/.ssh:/root/.ssh -w /app aplyca/semantic-release ash -c "semantic-release --no-ci"
+	docker run --rm -it -v $(CURDIR):/app -v $(HOME)/.ssh:/root/.ssh -w /app aplyca/semantic-release ash -c "semantic-release --no-ci"
 	git pull
 
 deploy:	bucket ?= patternlab-standard-static-prod
