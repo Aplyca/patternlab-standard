@@ -1,4 +1,4 @@
-FROM node:10.12.0-alpine
+FROM node:alpine
 LABEL maintainer="Aplyca" description="Pattern Lab Standard Edition"
 
 WORKDIR /app
