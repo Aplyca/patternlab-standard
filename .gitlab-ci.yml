@@ -33,16 +33,20 @@ bundle:
     changes:
       - src/**/*
 
-#testing:
-# stage: test
-#  script:
-#    - npm run test
-#  cache:
-#    paths:
-#      - node_modules
-#    policy: pull
-#  only:
-#    - branches
+testing:
+ stage: test
+  script:
+    - npm run test
+  cache:
+    paths:
+      - node_modules
+    policy: pull
+  only:
+    refs:
+      - merge_requests
+      - master
+    changes:
+      - src/**/*
 
 deploy_review_s3:
   image: "infrastructureascode/aws-cli"
